@@ -13,6 +13,7 @@ import { Route as QuemSomosRouteImport } from './routes/quem-somos'
 import { Route as ProjetosRouteImport } from './routes/projetos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuemSomosIndexRouteImport } from './routes/quem-somos.index'
+import { Route as ProjetosIndexRouteImport } from './routes/projetos.index'
 import { Route as QuemSomosTransparenciaRouteImport } from './routes/quem-somos.transparencia'
 import { Route as QuemSomosEquipeRouteImport } from './routes/quem-somos.equipe'
 
@@ -36,6 +37,11 @@ const QuemSomosIndexRoute = QuemSomosIndexRouteImport.update({
   path: '/',
   getParentRoute: () => QuemSomosRoute,
 } as any)
+const ProjetosIndexRoute = ProjetosIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProjetosRoute,
+} as any)
 const QuemSomosTransparenciaRoute = QuemSomosTransparenciaRouteImport.update({
   id: '/transparencia',
   path: '/transparencia',
@@ -49,26 +55,28 @@ const QuemSomosEquipeRoute = QuemSomosEquipeRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/projetos': typeof ProjetosRoute
+  '/projetos': typeof ProjetosRouteWithChildren
   '/quem-somos': typeof QuemSomosRouteWithChildren
   '/quem-somos/equipe': typeof QuemSomosEquipeRoute
   '/quem-somos/transparencia': typeof QuemSomosTransparenciaRoute
+  '/projetos/': typeof ProjetosIndexRoute
   '/quem-somos/': typeof QuemSomosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/projetos': typeof ProjetosRoute
   '/quem-somos/equipe': typeof QuemSomosEquipeRoute
   '/quem-somos/transparencia': typeof QuemSomosTransparenciaRoute
+  '/projetos': typeof ProjetosIndexRoute
   '/quem-somos': typeof QuemSomosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/projetos': typeof ProjetosRoute
+  '/projetos': typeof ProjetosRouteWithChildren
   '/quem-somos': typeof QuemSomosRouteWithChildren
   '/quem-somos/equipe': typeof QuemSomosEquipeRoute
   '/quem-somos/transparencia': typeof QuemSomosTransparenciaRoute
+  '/projetos/': typeof ProjetosIndexRoute
   '/quem-somos/': typeof QuemSomosIndexRoute
 }
 export interface FileRouteTypes {
@@ -79,13 +87,14 @@ export interface FileRouteTypes {
     | '/quem-somos'
     | '/quem-somos/equipe'
     | '/quem-somos/transparencia'
+    | '/projetos/'
     | '/quem-somos/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/projetos'
     | '/quem-somos/equipe'
     | '/quem-somos/transparencia'
+    | '/projetos'
     | '/quem-somos'
   id:
     | '__root__'
@@ -94,12 +103,13 @@ export interface FileRouteTypes {
     | '/quem-somos'
     | '/quem-somos/equipe'
     | '/quem-somos/transparencia'
+    | '/projetos/'
     | '/quem-somos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ProjetosRoute: typeof ProjetosRoute
+  ProjetosRoute: typeof ProjetosRouteWithChildren
   QuemSomosRoute: typeof QuemSomosRouteWithChildren
 }
 
@@ -133,6 +143,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuemSomosIndexRouteImport
       parentRoute: typeof QuemSomosRoute
     }
+    '/projetos/': {
+      id: '/projetos/'
+      path: '/'
+      fullPath: '/projetos/'
+      preLoaderRoute: typeof ProjetosIndexRouteImport
+      parentRoute: typeof ProjetosRoute
+    }
     '/quem-somos/transparencia': {
       id: '/quem-somos/transparencia'
       path: '/transparencia'
@@ -149,6 +166,18 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface ProjetosRouteChildren {
+  ProjetosIndexRoute: typeof ProjetosIndexRoute
+}
+
+const ProjetosRouteChildren: ProjetosRouteChildren = {
+  ProjetosIndexRoute: ProjetosIndexRoute,
+}
+
+const ProjetosRouteWithChildren = ProjetosRoute._addFileChildren(
+  ProjetosRouteChildren,
+)
 
 interface QuemSomosRouteChildren {
   QuemSomosEquipeRoute: typeof QuemSomosEquipeRoute
@@ -168,7 +197,7 @@ const QuemSomosRouteWithChildren = QuemSomosRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ProjetosRoute: ProjetosRoute,
+  ProjetosRoute: ProjetosRouteWithChildren,
   QuemSomosRoute: QuemSomosRouteWithChildren,
 }
 export const routeTree = rootRouteImport
