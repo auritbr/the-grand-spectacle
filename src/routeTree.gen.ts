@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as QuemSomosRouteImport } from './routes/quem-somos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuemSomosIndexRouteImport } from './routes/quem-somos.index'
+import { Route as QuemSomosEquipeRouteImport } from './routes/quem-somos.equipe'
 
 const QuemSomosRoute = QuemSomosRouteImport.update({
   id: '/quem-somos',
@@ -28,28 +29,36 @@ const QuemSomosIndexRoute = QuemSomosIndexRouteImport.update({
   path: '/',
   getParentRoute: () => QuemSomosRoute,
 } as any)
+const QuemSomosEquipeRoute = QuemSomosEquipeRouteImport.update({
+  id: '/equipe',
+  path: '/equipe',
+  getParentRoute: () => QuemSomosRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/quem-somos': typeof QuemSomosRouteWithChildren
+  '/quem-somos/equipe': typeof QuemSomosEquipeRoute
   '/quem-somos/': typeof QuemSomosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/quem-somos/equipe': typeof QuemSomosEquipeRoute
   '/quem-somos': typeof QuemSomosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/quem-somos': typeof QuemSomosRouteWithChildren
+  '/quem-somos/equipe': typeof QuemSomosEquipeRoute
   '/quem-somos/': typeof QuemSomosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/quem-somos' | '/quem-somos/'
+  fullPaths: '/' | '/quem-somos' | '/quem-somos/equipe' | '/quem-somos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/quem-somos'
-  id: '__root__' | '/' | '/quem-somos' | '/quem-somos/'
+  to: '/' | '/quem-somos/equipe' | '/quem-somos'
+  id: '__root__' | '/' | '/quem-somos' | '/quem-somos/equipe' | '/quem-somos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,14 +89,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuemSomosIndexRouteImport
       parentRoute: typeof QuemSomosRoute
     }
+    '/quem-somos/equipe': {
+      id: '/quem-somos/equipe'
+      path: '/equipe'
+      fullPath: '/quem-somos/equipe'
+      preLoaderRoute: typeof QuemSomosEquipeRouteImport
+      parentRoute: typeof QuemSomosRoute
+    }
   }
 }
 
 interface QuemSomosRouteChildren {
+  QuemSomosEquipeRoute: typeof QuemSomosEquipeRoute
   QuemSomosIndexRoute: typeof QuemSomosIndexRoute
 }
 
 const QuemSomosRouteChildren: QuemSomosRouteChildren = {
+  QuemSomosEquipeRoute: QuemSomosEquipeRoute,
   QuemSomosIndexRoute: QuemSomosIndexRoute,
 }
 
