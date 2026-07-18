@@ -4,7 +4,10 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PROJECTS } from "@/lib/site-data";
 
-const NAV = [
+type NavChild = { label: string; to: string; params?: Record<string, string> };
+type NavItem = { label: string; to: string; children?: NavChild[] };
+
+const NAV: NavItem[] = [
   { label: "Início", to: "/" },
   {
     label: "Quem Somos",
@@ -22,14 +25,15 @@ const NAV = [
       { label: "Todos os projetos", to: "/projetos" },
       ...PROJECTS.filter((p) => p.highlight).map((p) => ({
         label: p.name,
-        to: `/projetos/${p.slug}` as const,
+        to: "/projetos/$slug",
+        params: { slug: p.slug },
       })),
     ],
   },
   { label: "Notícias", to: "/noticias" },
   { label: "Galeria", to: "/galeria" },
   { label: "Contato", to: "/contato" },
-] as const;
+];
 
 export function Header({ transparent = false }: { transparent?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
@@ -72,10 +76,10 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
           <ul className="flex items-center gap-1">
             {NAV.map((item) => (
               <li key={item.label} className="relative group">
-                {"children" in item && item.children ? (
+                {item.children ? (
                   <>
                     <Link
-                      to={item.to}
+                      to={item.to as any}
                       className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-black/5 dark:hover:bg-white/10"
                       activeProps={{ className: "text-[color:var(--wine)]" }}
                     >
@@ -85,7 +89,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                       {item.children.map((c) => (
                         <li key={c.to}>
                           <Link
-                            to={c.to}
+                            to={c.to as any}
+                            params={c.params as any}
                             className="block rounded-md px-3 py-2 text-sm hover:bg-[color:var(--beige)]"
                             activeProps={{ className: "text-[color:var(--wine)]" }}
                           >
@@ -97,7 +102,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                   </>
                 ) : (
                   <Link
-                    to={item.to}
+                    to={item.to as any}
                     className="inline-block rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-black/5 dark:hover:bg-white/10"
                     activeProps={{ className: "text-[color:var(--wine)]" }}
                   >
@@ -131,7 +136,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
           <ul className="container-page py-3">
             {NAV.map((item) => (
               <li key={item.label} className="border-b border-[color:var(--border)] last:border-b-0">
-                {"children" in item && item.children ? (
+                {item.children ? (
                   <>
                     <button
                       className="flex w-full items-center justify-between py-3 text-left text-base font-medium"
@@ -146,7 +151,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                         {item.children.map((c) => (
                           <li key={c.to}>
                             <Link
-                              to={c.to}
+                              to={c.to as any}
+                              params={c.params as any}
                               onClick={() => setOpen(false)}
                               className="block rounded-md py-2 pl-4 text-sm text-[color:var(--foreground)]/80"
                             >
@@ -159,7 +165,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
                   </>
                 ) : (
                   <Link
-                    to={item.to}
+                    to={item.to as any}
                     onClick={() => setOpen(false)}
                     className="block py-3 text-base font-medium"
                   >
