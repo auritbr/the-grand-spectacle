@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/layout/PageHero";
 import { DocumentCard } from "@/components/cards/DocumentCard";
-import { DOCUMENTS } from "@/lib/site-data";
+import { DOCS, type Doc } from "@/lib/site-data";
 
 export const Route = createFileRoute("/quem-somos/transparencia")({
   head: () => ({
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/quem-somos/transparencia")({
   component: Transparencia,
 });
 
-const GROUPS = ["Institucional", "Prestação de contas", "Certificados", "Editais e projetos aprovados"] as const;
+const GROUPS: Doc["category"][] = ["Institucionais", "Financeiro", "Certificados", "Editais", "Parcerias", "Políticas"];
 
 function Transparencia() {
   return (
@@ -30,7 +30,7 @@ function Transparencia() {
       />
       <section className="container-page py-16 space-y-12">
         {GROUPS.map((g) => {
-          const docs = DOCUMENTS.filter((d) => d.group === g);
+          const docs = DOCS.filter((d) => d.category === g);
           if (docs.length === 0) return null;
           return (
             <div key={g}>
