@@ -63,14 +63,12 @@ function Galeria() {
           ))}
         </div>
       </section>
-      {idx !== null && (
-        <Lightbox
-          items={items.map((i) => ({ alt: i.alt, caption: i.caption }))}
-          index={idx}
-          onClose={() => setIdx(null)}
-          onChange={setIdx}
-        />
-      )}
+      <Lightbox
+        images={items.map((i) => ({ alt: i.alt, caption: i.caption }))}
+        index={idx}
+        onClose={() => setIdx(null)}
+        onIndex={setIdx}
+      />
     </>
   );
 }
