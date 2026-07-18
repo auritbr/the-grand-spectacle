@@ -3,7 +3,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { StagePlaceholder } from "@/components/decor/CurtainBackdrop";
 import { NewsCard } from "@/components/cards/NewsCard";
 import { Button } from "@/components/ui/button";
-import { NEWS } from "@/lib/site-data";
+import { NEWS, type NewsPost } from "@/lib/site-data";
 
 export const Route = createFileRoute("/noticias/$slug")({
   loader: ({ params }) => {
@@ -41,7 +41,7 @@ export const Route = createFileRoute("/noticias/$slug")({
 });
 
 function NewsDetail() {
-  const n = Route.useLoaderData();
+  const n = Route.useLoaderData() as NewsPost;
   const related = NEWS.filter((x) => x.slug !== n.slug && x.tag === n.tag).slice(0, 3);
   return (
     <>
@@ -58,10 +58,10 @@ function NewsDetail() {
           </p>
           <StagePlaceholder label={n.title} ratio="aspect-[16/9]" className="mt-6" />
           <div className="prose prose-neutral mt-8 max-w-none">
-            {n.content.map((b, i) => {
+            {n.content.map((b: NewsPost["content"][number], i: number) => {
               if (b.type === "h2") return <h2 key={i} className="font-display text-2xl font-bold text-[color:var(--wine)]">{b.text}</h2>;
               if (b.type === "quote") return <blockquote key={i} className="border-l-4 border-[color:var(--gold)] pl-4 italic text-[color:var(--foreground)]/85">{b.text}</blockquote>;
-              if (b.type === "ul") return <ul key={i} className="list-disc space-y-1 pl-5">{b.items?.map((it) => <li key={it}>{it}</li>)}</ul>;
+              if (b.type === "ul") return <ul key={i} className="list-disc space-y-1 pl-5">{b.items?.map((it: string) => <li key={it}>{it}</li>)}</ul>;
               return <p key={i} className="text-[color:var(--foreground)]/85">{b.text}</p>;
             })}
           </div>
