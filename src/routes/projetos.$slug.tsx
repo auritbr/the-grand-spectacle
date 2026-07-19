@@ -1,6 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, ArrowRight, CalendarDays, MapPin, Users, Clock, Quote, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, MapPin, Users, Clock, Sparkles } from "lucide-react";
 import { StagePlaceholder } from "@/components/decor/CurtainBackdrop";
 import { Motif, JugglingArc, SilkRibbon, PicadeiroArc, StarSpark, RopeCurve, CornerOrnament, RingHoop, SpotlightBeam, BuntingRow } from "@/components/decor/CircusMotifs";
 import { Lightbox } from "@/components/Lightbox";
@@ -167,28 +167,6 @@ function metricsOf(p: Project): Metric[] {
     { value: "24", label: "oficinas realizadas" },
     { value: "4", label: "mostras culturais" },
   ];
-}
-
-type Testimony = { quote: string; author: string; role: string };
-function testimonyOf(p: Project): Testimony {
-  const cat = p.category.toLowerCase();
-  if (cat.includes("cria"))
-    return {
-      quote: "A residência ampliou o meu jeito de pensar o corpo em cena — cada aparelho passou a contar uma história diferente.",
-      author: "Sofia Prado",
-      role: "Artista aérea residente",
-    };
-  if (cat.includes("circul"))
-    return {
-      quote: "Quando o circo chega na praça, a rua vira picadeiro. As crianças correm, os avós sorriem, e a gente entende para que serve tudo isso.",
-      author: "Dona Aurora",
-      role: "Moradora da Vila Aurora",
-    };
-  return {
-    quote: "Meu filho descobriu no circo um lugar de pertencimento — hoje ele não vive sem as oficinas.",
-    author: "Marcia Souza",
-    role: "Mãe de participante",
-  };
 }
 
 /* =========================================================
