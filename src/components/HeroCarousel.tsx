@@ -7,24 +7,24 @@ import { Button } from "@/components/ui/button";
 const SLIDES = [
   {
     eyebrow: "Ponto de Cultura",
-    title: "Arte circense como caminho de formação e comunidade",
-    text: "Há 18 anos formando artistas, aproximando públicos e ocupando praças com apresentações, oficinas e ações comunitárias.",
-    primary: { label: "Conheça nossa história", to: "/quem-somos" as const },
+    title: "Arte circense, formação e comunidade",
+    text: "Um espaço onde crianças, jovens e adultos aprendem, criam e compartilham diferentes linguagens do circo.",
+    primary: { label: "Conheça o Ponto de Cultura", to: "/quem-somos" as const },
     secondary: { label: "Veja nossos projetos", to: "/projetos" as const },
   },
   {
-    eyebrow: "Projetos e formação",
-    title: "Trilhas de formação, residências e circulação",
-    text: "Programas para diferentes trajetórias — do primeiro contato à criação profissional em artes do circo.",
-    primary: { label: "Ver todos os projetos", to: "/projetos" as const },
-    secondary: { label: "Fale conosco", to: "/contato" as const },
+    eyebrow: "Projetos",
+    title: "Experiências que nascem no picadeiro",
+    text: "Oficinas, processos criativos e apresentações que aproximam arte, educação e território.",
+    primary: { label: "Conheça os projetos", to: "/projetos" as const },
+    secondary: { label: "Fale com a equipe", to: "/contato" as const },
   },
   {
-    eyebrow: "Cultura viva",
-    title: "Circo na praça, circo nas escolas, circo na cidade",
-    text: "Apresentações abertas em territórios diversos e ações educativas que ampliam o acesso à cultura.",
-    primary: { label: "Últimas notícias", to: "/noticias" as const },
-    secondary: { label: "Galeria de registros", to: "/galeria" as const },
+    eyebrow: "Memória e circulação",
+    title: "Uma história construída em movimento",
+    text: "Registros, encontros e apresentações que preservam e fortalecem a cultura circense.",
+    primary: { label: "Veja as notícias", to: "/noticias" as const },
+    secondary: { label: "Acesse a galeria", to: "/galeria" as const },
   },
 ];
 
@@ -40,7 +40,7 @@ export function HeroCarousel() {
 
   return (
     <section
-      className="relative isolate min-h-[560px] overflow-hidden md:min-h-[620px]"
+      className="relative isolate min-h-[540px] overflow-hidden md:min-h-[610px]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-label="Apresentação do Ponto de Cultura"
@@ -48,7 +48,7 @@ export function HeroCarousel() {
       <CurtainBackdrop />
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/60" aria-hidden />
 
-      <div className="relative container-page flex min-h-[560px] items-end pb-16 pt-32 md:min-h-[620px] md:items-center">
+      <div className="relative container-page flex min-h-[540px] items-end pb-16 pt-32 md:min-h-[610px] md:items-center">
         <div className="max-w-2xl text-[color:var(--cream)]">
           {SLIDES.map((s, idx) => (
             <div
