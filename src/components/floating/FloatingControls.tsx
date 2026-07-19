@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Cookie, Accessibility, X, MessageCircle, Hand, Plus, Minus, Contrast, Droplet, Underline, AlignJustify, BookOpen, RotateCcw } from "lucide-react";
+import { Cookie, Accessibility, X, MessageCircle, Plus, Minus, Contrast, Droplet, Underline, AlignJustify, BookOpen, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site-data";
 
@@ -34,7 +34,6 @@ export function FloatingControls() {
   const [cookiesOpen, setCookiesOpen] = useState(false);
   const [banner, setBanner] = useState(false);
   const [flags, setFlags] = useState<A11yFlags>(DEFAULT_A11Y);
-  const [vLibrasOn, setVLibrasOn] = useState(false);
   const [prefs, setPrefs] = useState({ necessary: true, analytics: false, marketing: false });
   const panelRef = useRef<HTMLDivElement | null>(null);
 
@@ -49,27 +48,8 @@ export function FloatingControls() {
       if (!c) setBanner(true);
       else setPrefs({ ...prefs, ...JSON.parse(c) });
     } catch {}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const updateFlags = (patch: Partial<A11yFlags>) => {
-    const next = { ...flags, ...patch };
-    setFlags(next); applyA11y(next);
-    localStorage.setItem(A11Y_KEY, JSON.stringify(next));
-  };
-  const resetA11y = () => { setFlags(DEFAULT_A11Y); applyA11y(DEFAULT_A11Y); localStorage.removeItem(A11Y_KEY); };
-
-  const savePrefs = (p: typeof prefs) => {
-    setPrefs(p);
-    localStorage.setItem(COOKIES_KEY, JSON.stringify(p));
-    setBanner(false);
-    setCookiesOpen(false);
-  };
-
-  const toggleVLibras = () => {
-    setVLibrasOn((v) => !v);
-    // Load VLibras script on demand
-    if (!vLibrasOn && !(window as unknown as { VLibras?: unknown }).VLibras) {
+    // Auto-load the official VLibras plugin (single instance) on mount.
+    if (typeof window !== "undefined" && !document.querySelector('div[vw]')) {
       const s = document.createElement("script");
       s.src = "https://vlibras.gov.br/app/vlibras-plugin.js";
       s.async = true;
@@ -86,6 +66,21 @@ export function FloatingControls() {
       div.innerHTML = '<div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>';
       document.body.appendChild(div);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const updateFlags = (patch: Partial<A11yFlags>) => {
+    const next = { ...flags, ...patch };
+    setFlags(next); applyA11y(next);
+    localStorage.setItem(A11Y_KEY, JSON.stringify(next));
+  };
+  const resetA11y = () => { setFlags(DEFAULT_A11Y); applyA11y(DEFAULT_A11Y); localStorage.removeItem(A11Y_KEY); };
+
+  const savePrefs = (p: typeof prefs) => {
+    setPrefs(p);
+    localStorage.setItem(COOKIES_KEY, JSON.stringify(p));
+    setBanner(false);
+    setCookiesOpen(false);
   };
 
   return (
@@ -113,7 +108,7 @@ export function FloatingControls() {
         </button>
       </div>
 
-      {/* Right column: whatsapp + vlibras */}
+      {/* Right column: whatsapp (VLibras renders its own official button) */}
       <div className="fixed bottom-4 right-4 z-40 flex flex-col gap-2">
         <a
           href={`https://wa.me/${SITE.whatsapp}`}
@@ -125,15 +120,6 @@ export function FloatingControls() {
         >
           <MessageCircle className="h-5 w-5" aria-hidden />
         </a>
-        <button
-          type="button"
-          onClick={toggleVLibras}
-          aria-label="Ativar VLibras (tradução em Libras)"
-          title="VLibras"
-          className={`grid h-11 w-11 place-items-center rounded-full text-white shadow-md hover:brightness-110 ${vLibrasOn ? "bg-[color:var(--gold)] text-[color:var(--navy)]" : "bg-[color:var(--navy)]"}`}
-        >
-          <Hand className="h-5 w-5" aria-hidden />
-        </button>
       </div>
 
       {/* Accessibility panel */}
