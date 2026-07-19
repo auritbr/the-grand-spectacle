@@ -81,28 +81,37 @@ function Noticias() {
       <PageHero
         crumbs={[{ label: "Início", to: "/" }, { label: "Notícias" }]}
         eyebrow="Comunicação"
-        title="Notícias e coberturas"
-        intro="Registros das oficinas, apresentações, encontros comunitários e conquistas do Ponto de Cultura."
+        title="Notícias"
       />
 
       <section className="container-page py-16">
         {/* Barra de busca + filtros de tags */}
         <div className="rounded-3xl border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-sm">
-          <form onSubmit={submitSearch} className="flex flex-col gap-4 md:flex-row md:items-center">
-            <div className="relative flex-1">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[color:var(--muted-foreground)]" />
+          <form onSubmit={submitSearch} className="flex flex-col gap-3 sm:flex-row sm:items-center sm:flex-wrap">
+            <div className="relative w-full sm:w-[320px]">
+              <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[color:var(--muted-foreground)]" />
               <input
                 type="search"
                 value={qLocal}
                 onChange={(e) => setQLocal(e.target.value)}
-                placeholder="Buscar por título ou palavra-chave..."
-                className="h-12 w-full rounded-full border border-[color:var(--border)] bg-[color:var(--background)] pl-11 pr-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--wine)]"
+                placeholder="Buscar notícias..."
+                className="h-11 w-full rounded-full border border-[color:var(--border)] bg-[color:var(--background)] pl-10 pr-9 text-sm outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--wine)]"
                 aria-label="Buscar notícias"
               />
+              {qLocal && (
+                <button
+                  type="button"
+                  onClick={() => { setQLocal(""); updateSearch({ q: undefined, page: 1 }); }}
+                  aria-label="Limpar busca"
+                  className="absolute right-2 top-1/2 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full text-[color:var(--muted-foreground)] hover:bg-[color:var(--beige)]"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
             </div>
             <button
               type="submit"
-              className="h-12 rounded-full bg-[color:var(--wine)] px-6 text-sm font-semibold text-[color:var(--cream)] transition-colors hover:bg-[color:var(--wine-deep)]"
+              className="h-11 rounded-full bg-[color:var(--wine)] px-5 text-sm font-semibold text-[color:var(--cream)] transition-colors hover:bg-[color:var(--wine-deep)]"
             >
               Buscar
             </button>
@@ -110,7 +119,7 @@ function Noticias() {
               <button
                 type="button"
                 onClick={clearFilters}
-                className="inline-flex h-12 items-center gap-1 rounded-full border border-[color:var(--border)] px-4 text-sm text-[color:var(--muted-foreground)] hover:bg-[color:var(--beige)]"
+                className="inline-flex h-11 items-center gap-1 rounded-full border border-[color:var(--border)] px-4 text-sm text-[color:var(--muted-foreground)] hover:bg-[color:var(--beige)]"
               >
                 <X className="h-4 w-4" /> Limpar
               </button>
