@@ -29,6 +29,25 @@ export const AREAS = [
   { title: "Apresentações comunitárias", desc: "Circulação em praças, escolas e territórios.", icon: "community" },
 ] as const;
 
+// Atividades do Ponto de Cultura — usadas na página Quem Somos.
+export type Activity = {
+  title: string;
+  desc: string;
+  motif: "juggle" | "silk" | "ring" | "star" | "rope" | "arc" | "spotlight" | "bunting";
+};
+export const ACTIVITIES: Activity[] = [
+  { title: "Iniciação Circense", desc: "Primeiros contatos com técnicas, corpo e coletividade.", motif: "arc" },
+  { title: "Malabarismo", desc: "Ritmo, coordenação e composição com objetos em movimento.", motif: "juggle" },
+  { title: "Acrobacia", desc: "Preparo corporal, força e consciência do gesto.", motif: "star" },
+  { title: "Tecidos aéreos", desc: "Sequências, dramaturgia e criação cênica em altura.", motif: "silk" },
+  { title: "Equilíbrio", desc: "Rola-bola, arame e a escuta do corpo em eixo.", motif: "ring" },
+  { title: "Palhaçaria", desc: "A arte do encontro, do gesto e do riso poético.", motif: "spotlight" },
+  { title: "Expressão corporal", desc: "Dança, presença cênica e linguagem do movimento.", motif: "rope" },
+  { title: "Criação de espetáculos", desc: "Laboratórios de dramaturgia e composição coletiva.", motif: "bunting" },
+  { title: "Apresentações comunitárias", desc: "Circulação em praças, escolas e territórios.", motif: "spotlight" },
+  { title: "Formação de educadores", desc: "Encontros de estudo e prática pedagógica em circo.", motif: "arc" },
+];
+
 export type Project = {
   slug: string;
   name: string;
@@ -40,6 +59,8 @@ export type Project = {
   location: string;
   status: "Ativo" | "Contínuo" | "Concluído";
   highlight: boolean;
+  colorKey?: "navy" | "gold" | "wine";
+  motif?: "juggle" | "silk" | "ring" | "star" | "rope" | "arc" | "spotlight" | "bunting";
   about: string;
   objectives: string[];
   methodology: string;
@@ -62,6 +83,8 @@ export const PROJECTS: Project[] = [
     location: "Sede e escolas parceiras",
     status: "Ativo",
     highlight: true,
+    colorKey: "navy",
+    motif: "juggle",
     about:
       "O Picadeiro Comunitário nasceu para ampliar o acesso às artes do circo em regiões com pouca oferta cultural. Une preparação corporal, criação coletiva e apresentações abertas ao público.",
     objectives: [
@@ -97,6 +120,8 @@ export const PROJECTS: Project[] = [
     location: "Sede",
     status: "Contínuo",
     highlight: true,
+    colorKey: "gold",
+    motif: "silk",
     about:
       "A Companhia Aérea reúne artistas em processo de pesquisa em tecidos, lira, trapézio e trapézio-dança. Investiga dramaturgias do corpo suspenso e leva os resultados a festivais e temporadas curtas.",
     objectives: [
@@ -132,6 +157,8 @@ export const PROJECTS: Project[] = [
     location: "Praças e territórios da cidade",
     status: "Ativo",
     highlight: true,
+    colorKey: "wine",
+    motif: "spotlight",
     about:
       "Circo na Praça ocupa espaços públicos com apresentações e oficinas abertas. Cria encontros entre artistas e comunidade em locais onde a cultura raramente chega.",
     objectives: [
@@ -198,19 +225,25 @@ export type TeamMember = {
   name: string;
   role: string;
   category: "Coordenação" | "Direção" | "Produção" | "Educadores" | "Artistas" | "Equipe técnica" | "Colaboradores";
+  motif?: "juggle" | "silk" | "ring" | "star" | "rope" | "arc" | "spotlight" | "bunting";
+  accent?: "wine" | "gold" | "navy";
   bio: string;
   fullBio: string;
 };
 
 export const TEAM: TeamMember[] = [
-  { name: "Ana Ribeiro", role: "Coordenação geral", category: "Coordenação", bio: "Gestora cultural com atuação em projetos comunitários há mais de 15 anos.", fullBio: "Ana coordena o Ponto de Cultura desde 2018. Atua na articulação de políticas culturais e formação de coletivos artísticos." },
-  { name: "Marco Andrade", role: "Direção artística", category: "Direção", bio: "Diretor cênico e pesquisador em linguagens circenses.", fullBio: "Marco é responsável pela direção artística dos espetáculos da casa e coordena laboratórios de criação." },
-  { name: "Júlia Nunes", role: "Produção executiva", category: "Produção", bio: "Produtora com experiência em festivais e temporadas.", fullBio: "Júlia articula produção, cronogramas e parcerias institucionais." },
-  { name: "Rafael Meireles", role: "Educador — Acrobacia", category: "Educadores", bio: "Acrobata e pedagogo do movimento.", fullBio: "Formado em Educação Física e artes circenses, atua há dez anos como preparador corporal." },
-  { name: "Sofia Prado", role: "Educadora — Tecidos aéreos", category: "Educadores", bio: "Artista aérea e criadora cênica.", fullBio: "Sofia dirige processos criativos em técnicas aéreas e ministra formações continuadas." },
-  { name: "Bea Camargo", role: "Artista residente", category: "Artistas", bio: "Palhaça e pesquisadora da comicidade.", fullBio: "Bea integra o núcleo de criação e assina espetáculos autorais em circulação." },
-  { name: "Diego Farah", role: "Iluminação e cenografia", category: "Equipe técnica", bio: "Iluminador cênico e cenotécnico.", fullBio: "Responsável pelo desenho de luz das produções e pela adequação técnica dos espaços." },
-  { name: "Camila Rocha", role: "Comunicação", category: "Colaboradores", bio: "Comunicadora cultural.", fullBio: "Camila coordena comunicação, redes e relações com imprensa." },
+  { name: "Ana Ribeiro", role: "Coordenação geral", category: "Coordenação", motif: "arc", accent: "wine", bio: "Gestora cultural com atuação em projetos comunitários há mais de 15 anos.", fullBio: "Ana coordena o Ponto de Cultura desde 2018. Atua na articulação de políticas culturais e formação de coletivos artísticos." },
+  { name: "Marco Andrade", role: "Direção artística", category: "Direção", motif: "spotlight", accent: "navy", bio: "Diretor cênico e pesquisador em linguagens circenses.", fullBio: "Marco é responsável pela direção artística dos espetáculos da casa e coordena laboratórios de criação." },
+  { name: "Júlia Nunes", role: "Produção executiva", category: "Produção", motif: "bunting", accent: "gold", bio: "Produtora com experiência em festivais e temporadas.", fullBio: "Júlia articula produção, cronogramas e parcerias institucionais." },
+  { name: "Rafael Meireles", role: "Educador — Acrobacia", category: "Educadores", motif: "star", accent: "wine", bio: "Acrobata e pedagogo do movimento.", fullBio: "Formado em Educação Física e artes circenses, atua há dez anos como preparador corporal." },
+  { name: "Sofia Prado", role: "Educadora — Tecidos aéreos", category: "Educadores", motif: "silk", accent: "wine", bio: "Artista aérea e criadora cênica.", fullBio: "Sofia dirige processos criativos em técnicas aéreas e ministra formações continuadas." },
+  { name: "Bea Camargo", role: "Artista residente — Palhaçaria", category: "Artistas", motif: "spotlight", accent: "wine", bio: "Palhaça e pesquisadora da comicidade.", fullBio: "Bea integra o núcleo de criação e assina espetáculos autorais em circulação." },
+  { name: "Diego Farah", role: "Iluminação e cenografia", category: "Equipe técnica", motif: "ring", accent: "navy", bio: "Iluminador cênico e cenotécnico.", fullBio: "Responsável pelo desenho de luz das produções e pela adequação técnica dos espaços." },
+  { name: "Camila Rocha", role: "Comunicação", category: "Colaboradores", motif: "rope", accent: "gold", bio: "Comunicadora cultural.", fullBio: "Camila coordena comunicação, redes e relações com imprensa." },
+  { name: "Tomás Vieira", role: "Educador — Malabarismo", category: "Educadores", motif: "juggle", accent: "gold", bio: "Malabarista com formação em circo de rua.", fullBio: "Tomás desenvolve trilhas de iniciação em malabarismo e composição rítmica com objetos." },
+  { name: "Helena Marques", role: "Educadora — Expressão corporal", category: "Educadores", motif: "rope", accent: "navy", bio: "Bailarina e preparadora corporal.", fullBio: "Helena conduz aulas de dança, presença cênica e preparo do corpo para a linguagem circense." },
+  { name: "Ivan Cordeiro", role: "Artista residente — Acrobacia", category: "Artistas", motif: "star", accent: "gold", bio: "Acrobata portor e pesquisador.", fullBio: "Ivan integra criações da Companhia Aérea e assina duetos acrobáticos em circulação regional." },
+  { name: "Rosa Pimentel", role: "Figurinos e adereços", category: "Equipe técnica", motif: "bunting", accent: "wine", bio: "Costureira e designer cênica.", fullBio: "Rosa concebe e executa figurinos das produções e coordena a oficina de adereços." },
 ];
 
 export type NewsPost = {
@@ -230,28 +263,51 @@ const NEWS_TAGS = [
   "Apresentação", "Cultura", "Comunidade", "Parceria", "Institucional",
 ] as const;
 
-export const NEWS: NewsPost[] = Array.from({ length: 12 }).map((_, i) => {
+const NEWS_TITLES = [
+  "Mostra cultural reúne famílias em apresentação aberta",
+  "Oficina de tecidos aéreos abre novas vagas para o semestre",
+  "Circo na Praça leva apresentações a quatro bairros",
+  "Companhia Aérea estreia novo espetáculo autoral",
+  "Parceria fortalece formação em escolas públicas",
+  "Ponto de Cultura recebe reconhecimento estadual",
+  "Encontro de palhaçaria movimenta a semana formativa",
+  "Espetáculo comunitário lota praça central",
+  "Novo ciclo de residências abre inscrições",
+  "Publicação registra memória circense local",
+  "Formação de educadores encerra com apresentação",
+  "Casa aberta apresenta processos criativos ao público",
+  "Malabarismo cênico ganha nova turma de iniciação",
+  "Roda de acrobacia reúne artistas convidados",
+  "Ação social leva oficinas a centro de convivência",
+  "Semana da Cultura ocupa a sede com programação plural",
+  "Vivência de expressão corporal aproxima escolas",
+  "Estreia de espetáculo marca abertura da temporada",
+  "Encontro com mestres do circo tradicional emociona plateia",
+  "Projeto de figurinos abre chamada para colaboradores",
+  "Ensaio aberto convida comunidade a acompanhar criação",
+  "Curso livre de circo social entra em nova edição",
+  "Ação em escola pública encerra ciclo formativo",
+  "Festival de circo comunitário anuncia programação",
+  "Coletivo aéreo compartilha processos em residência",
+  "Publicação sobre pedagogia circense chega à sede",
+  "Oficina de equilíbrio recebe grupo intergeracional",
+  "Ponto de Cultura celebra doze anos de trajetória",
+  "Mostra final integra turmas de formação inicial",
+  "Circulação regional leva apresentações a três cidades",
+  "Novo laboratório investiga corpo e dramaturgia",
+  "Cadastro de artistas parceiros abre em fevereiro",
+  "Comunidade se reúne em roda de conversa sobre acesso",
+];
+
+export const NEWS: NewsPost[] = NEWS_TITLES.map((title, i) => {
   const tag = NEWS_TAGS[i % NEWS_TAGS.length];
-  const y = 2026 - Math.floor(i / 6);
-  const m = ((i * 3) % 12) + 1;
-  const d = ((i * 5) % 27) + 1;
+  const y = 2026 - Math.floor(i / 10);
+  const m = ((i * 7) % 12) + 1;
+  const d = ((i * 11) % 27) + 1;
   const date = `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
   return {
-    slug: `noticia-${i + 1}-${tag.toLowerCase().replace(/\s/g, "-")}`,
-    title: [
-      "Mostra cultural reúne famílias em apresentação aberta",
-      "Oficina de tecidos aéreos abre novas vagas",
-      "Circo na Praça leva apresentações a quatro bairros",
-      "Companhia Aérea estreia novo espetáculo",
-      "Parceria fortalece formação em escolas públicas",
-      "Ponto de Cultura recebe reconhecimento estadual",
-      "Encontro de palhaçaria movimenta a semana",
-      "Espetáculo comunitário lota praça central",
-      "Novo ciclo de residências abre inscrições",
-      "Publicação registra memória circense local",
-      "Formação de educadores encerra com apresentação",
-      "Casa aberta apresenta processos criativos ao público",
-    ][i],
+    slug: `${(i + 1).toString().padStart(2, "0")}-${title.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-|-$/g, "").slice(0, 60)}`,
+    title,
     subtitle: "Registros de uma programação plural, formativa e aberta à comunidade.",
     excerpt:
       "Uma tarde de encontros, apresentações e conversas entre artistas, estudantes e famílias — ampliando os caminhos das artes circenses no território.",
@@ -260,12 +316,13 @@ export const NEWS: NewsPost[] = Array.from({ length: 12 }).map((_, i) => {
     readingTime: `${3 + (i % 5)} min de leitura`,
     tag,
     content: [
-      { type: "p", text: "A programação reuniu artistas, educadores e comunidade em um encontro que aproximou linguagens circenses de novos públicos." },
+      { type: "p", text: "A programação reuniu artistas, educadores e comunidade em um encontro que aproximou linguagens circenses de novos públicos, reforçando o compromisso do Ponto de Cultura com a formação e o acesso à arte." },
       { type: "h2", text: "Um encontro entre linguagens" },
-      { type: "p", text: "Ao longo do dia, oficinas abertas revelaram os processos que dão sustentação aos espetáculos apresentados no fim da tarde." },
-      { type: "ul", items: ["Oficina de acrobacia", "Roda de palhaçaria", "Apresentação de tecidos aéreos"] },
+      { type: "p", text: "Ao longo do dia, oficinas abertas revelaram os processos que dão sustentação aos espetáculos apresentados no fim da tarde. Participantes de diferentes idades circularam por experiências de acrobacia, malabarismo e tecidos aéreos." },
+      { type: "ul", items: ["Oficina de acrobacia de solo", "Roda de palhaçaria contemporânea", "Apresentação de tecidos aéreos", "Bate-papo com artistas residentes"] },
       { type: "quote", text: "O circo é um espaço em que arte, técnica e comunidade se encontram no mesmo picadeiro." },
-      { type: "p", text: "As atividades seguem no calendário do Ponto de Cultura, com programação atualizada mensalmente." },
+      { type: "h2", text: "Continuidade no calendário" },
+      { type: "p", text: "As atividades seguem no calendário do Ponto de Cultura, com programação atualizada mensalmente e vagas gratuitas para moradores do território." },
     ],
   };
 });
@@ -273,23 +330,49 @@ export const NEWS: NewsPost[] = Array.from({ length: 12 }).map((_, i) => {
 export type Doc = {
   id: string;
   title: string;
-  category: "Institucionais" | "Financeiro" | "Editais" | "Parcerias" | "Políticas" | "Certificados";
+  category:
+    | "Documentos oficiais e institucionais"
+    | "Atas e registros administrativos"
+    | "Relatórios de atividades"
+    | "Relatórios financeiros"
+    | "Prestação de contas"
+    | "Editais e parcerias"
+    | "Certificados e reconhecimentos"
+    | "Políticas internas"
+    | "Portfólios e registros"
+    | "Outros documentos";
   type: "PDF" | "DOC" | "XLS";
   year: number;
   size: string;
 };
 
 export const DOCS: Doc[] = [
-  { id: "d1", title: "Estatuto Social", category: "Institucionais", type: "PDF", year: 2023, size: "412 KB" },
-  { id: "d2", title: "Ata da Assembleia Geral 2025", category: "Institucionais", type: "PDF", year: 2025, size: "220 KB" },
-  { id: "d3", title: "Relatório de Atividades 2025", category: "Institucionais", type: "PDF", year: 2025, size: "3,2 MB" },
-  { id: "d4", title: "Relatório Financeiro 2025", category: "Financeiro", type: "PDF", year: 2025, size: "1,8 MB" },
-  { id: "d5", title: "Prestação de Contas 2024", category: "Financeiro", type: "PDF", year: 2024, size: "2,4 MB" },
-  { id: "d6", title: "Edital de Seleção — Educadores", category: "Editais", type: "PDF", year: 2026, size: "180 KB" },
-  { id: "d7", title: "Termo de Parceria — Secretaria de Cultura", category: "Parcerias", type: "PDF", year: 2024, size: "540 KB" },
-  { id: "d8", title: "Política de Privacidade", category: "Políticas", type: "PDF", year: 2025, size: "96 KB" },
-  { id: "d9", title: "Certificado — Ponto de Cultura", category: "Certificados", type: "PDF", year: 2022, size: "310 KB" },
-  { id: "d10", title: "Planejamento Anual 2026", category: "Institucionais", type: "PDF", year: 2026, size: "1,1 MB" },
+  { id: "d1", title: "Estatuto Social", category: "Documentos oficiais e institucionais", type: "PDF", year: 2023, size: "412 KB" },
+  { id: "d2", title: "Cadastro Nacional de Pessoa Jurídica", category: "Documentos oficiais e institucionais", type: "PDF", year: 2024, size: "128 KB" },
+  { id: "d3", title: "Regimento Interno", category: "Documentos oficiais e institucionais", type: "PDF", year: 2023, size: "260 KB" },
+  { id: "d4", title: "Ata da Assembleia Geral 2025", category: "Atas e registros administrativos", type: "PDF", year: 2025, size: "220 KB" },
+  { id: "d5", title: "Ata de Eleição da Diretoria 2024", category: "Atas e registros administrativos", type: "PDF", year: 2024, size: "196 KB" },
+  { id: "d6", title: "Ata de Reunião Ordinária — Junho 2025", category: "Atas e registros administrativos", type: "PDF", year: 2025, size: "142 KB" },
+  { id: "d7", title: "Relatório de Atividades 2025", category: "Relatórios de atividades", type: "PDF", year: 2025, size: "3,2 MB" },
+  { id: "d8", title: "Relatório de Atividades 2024", category: "Relatórios de atividades", type: "PDF", year: 2024, size: "2,8 MB" },
+  { id: "d9", title: "Relatório de Atividades 2023", category: "Relatórios de atividades", type: "PDF", year: 2023, size: "2,4 MB" },
+  { id: "d10", title: "Relatório Financeiro 2025", category: "Relatórios financeiros", type: "PDF", year: 2025, size: "1,8 MB" },
+  { id: "d11", title: "Relatório Financeiro 2024", category: "Relatórios financeiros", type: "PDF", year: 2024, size: "1,6 MB" },
+  { id: "d12", title: "Balanço Patrimonial 2024", category: "Relatórios financeiros", type: "PDF", year: 2024, size: "980 KB" },
+  { id: "d13", title: "Prestação de Contas 2024", category: "Prestação de contas", type: "PDF", year: 2024, size: "2,4 MB" },
+  { id: "d14", title: "Prestação de Contas — Edital Cultura Viva", category: "Prestação de contas", type: "PDF", year: 2023, size: "1,9 MB" },
+  { id: "d15", title: "Edital de Seleção — Educadores 2026", category: "Editais e parcerias", type: "PDF", year: 2026, size: "180 KB" },
+  { id: "d16", title: "Termo de Parceria — Secretaria de Cultura", category: "Editais e parcerias", type: "PDF", year: 2024, size: "540 KB" },
+  { id: "d17", title: "Chamada Pública — Residências Aéreas", category: "Editais e parcerias", type: "PDF", year: 2025, size: "310 KB" },
+  { id: "d18", title: "Reconhecimento como Ponto de Cultura", category: "Certificados e reconhecimentos", type: "PDF", year: 2016, size: "147 KB" },
+  { id: "d19", title: "Certificado de Utilidade Pública Municipal", category: "Certificados e reconhecimentos", type: "PDF", year: 2019, size: "196 KB" },
+  { id: "d20", title: "Menção Honrosa — Prêmio Cultura Viva", category: "Certificados e reconhecimentos", type: "PDF", year: 2022, size: "310 KB" },
+  { id: "d21", title: "Política de Privacidade", category: "Políticas internas", type: "PDF", year: 2025, size: "96 KB" },
+  { id: "d22", title: "Código de Conduta", category: "Políticas internas", type: "PDF", year: 2024, size: "112 KB" },
+  { id: "d23", title: "Política de Proteção à Criança e ao Adolescente", category: "Políticas internas", type: "PDF", year: 2025, size: "148 KB" },
+  { id: "d24", title: "Portfólio Institucional 2025", category: "Portfólios e registros", type: "PDF", year: 2025, size: "8,4 MB" },
+  { id: "d25", title: "Portfólio de Projetos 2024", category: "Portfólios e registros", type: "PDF", year: 2024, size: "6,9 MB" },
+  { id: "d26", title: "Planejamento Anual 2026", category: "Outros documentos", type: "PDF", year: 2026, size: "1,1 MB" },
 ];
 
 export const EVENTS = [
@@ -317,21 +400,107 @@ export const TIMELINE = [
 ];
 
 export const GALLERY_YEARS = [2026, 2025, 2024, 2023, 2022];
-export const GALLERY: Record<number, { alt: string; caption: string }[]> = {
+
+export type GalleryPhoto = { alt: string; caption?: string };
+export type GalleryPost = {
+  id: string;
+  title: string;
+  date?: string;
+  description?: string;
+  photos: GalleryPhoto[];
+};
+
+const makePhotos = (prefix: string, n: number): GalleryPhoto[] =>
+  Array.from({ length: n }).map((_, i) => ({
+    alt: `${prefix} — foto ${i + 1}`,
+    caption: `${prefix} — foto ${i + 1}`,
+  }));
+
+export const GALLERY_POSTS: Record<number, GalleryPost[]> = {
   2026: [
-    { alt: "Artista em tecido aéreo", caption: "Ensaio da Companhia Aérea" },
-    { alt: "Roda de palhaçaria", caption: "Oficina aberta de palhaçaria" },
-    { alt: "Público em apresentação", caption: "Mostra cultural na praça" },
-    { alt: "Malabarista em performance", caption: "Malabarismo cênico" },
-    { alt: "Educadora com estudantes", caption: "Formação continuada" },
-    { alt: "Bastidor de espetáculo", caption: "Bastidores da estreia" },
-    { alt: "Detalhe de figurino", caption: "Detalhe de figurino" },
-    { alt: "Palco com iluminação cênica", caption: "Palco iluminado" },
+    {
+      id: "2026-mostra",
+      title: "Mostra de Artes Circenses — Encerramento das Oficinas",
+      date: "Março de 2026",
+      description: "Registros da apresentação realizada com participantes das oficinas de iniciação circense.",
+      photos: [
+        { alt: "Artista em tecido aéreo", caption: "Ensaio da Companhia Aérea" },
+        { alt: "Roda de palhaçaria", caption: "Oficina aberta de palhaçaria" },
+        { alt: "Público em apresentação", caption: "Mostra cultural na praça" },
+        { alt: "Malabarista em performance", caption: "Malabarismo cênico" },
+        { alt: "Educadora com estudantes", caption: "Formação continuada" },
+        { alt: "Bastidor de espetáculo", caption: "Bastidores da estreia" },
+      ],
+    },
+    {
+      id: "2026-tecidos",
+      title: "Oficina de Tecidos Aéreos",
+      date: "Fevereiro de 2026",
+      description: "Vivência prática com iniciantes e artistas em formação continuada.",
+      photos: makePhotos("Tecidos aéreos 2026", 8),
+    },
   ],
-  2025: Array.from({ length: 8 }).map((_, i) => ({ alt: `Registro 2025 ${i + 1}`, caption: `Registro cultural ${i + 1}` })),
-  2024: Array.from({ length: 6 }).map((_, i) => ({ alt: `Registro 2024 ${i + 1}`, caption: `Registro cultural ${i + 1}` })),
-  2023: Array.from({ length: 6 }).map((_, i) => ({ alt: `Registro 2023 ${i + 1}`, caption: `Registro cultural ${i + 1}` })),
-  2022: Array.from({ length: 4 }).map((_, i) => ({ alt: `Registro 2022 ${i + 1}`, caption: `Registro cultural ${i + 1}` })),
+  2025: [
+    {
+      id: "2025-praca",
+      title: "Apresentação na Praça — Vila Aurora",
+      date: "Novembro de 2025",
+      description: "Ocupação cultural com apresentações e oficinas abertas ao público.",
+      photos: makePhotos("Circo na Praça 2025", 10),
+    },
+    {
+      id: "2025-formacao",
+      title: "Formação de Educadores",
+      date: "Agosto de 2025",
+      description: "Encontro formativo com educadores parceiros de escolas públicas.",
+      photos: makePhotos("Formação 2025", 6),
+    },
+    {
+      id: "2025-encontro",
+      title: "Encontro Comunitário",
+      date: "Maio de 2025",
+      photos: makePhotos("Encontro comunitário 2025", 5),
+    },
+  ],
+  2024: [
+    {
+      id: "2024-semana",
+      title: "Semana da Cultura",
+      date: "Outubro de 2024",
+      description: "Programação plural com espetáculos, oficinas e rodas de conversa.",
+      photos: makePhotos("Semana da Cultura 2024", 9),
+    },
+    {
+      id: "2024-malabarismo",
+      title: "Vivência de Malabarismo",
+      date: "Junho de 2024",
+      photos: makePhotos("Malabarismo 2024", 6),
+    },
+  ],
+  2023: [
+    {
+      id: "2023-circo-comunidade",
+      title: "Circo na Comunidade",
+      date: "Setembro de 2023",
+      description: "Apresentações em territórios de baixa oferta cultural.",
+      photos: makePhotos("Circo na Comunidade 2023", 8),
+    },
+    {
+      id: "2023-oficina",
+      title: "Oficina de Palhaçaria",
+      date: "Abril de 2023",
+      photos: makePhotos("Palhaçaria 2023", 5),
+    },
+  ],
+  2022: [
+    {
+      id: "2022-encerramento",
+      title: "Mostra de Encerramento das Oficinas",
+      date: "Dezembro de 2022",
+      description: "Encerramento do ciclo formativo anual.",
+      photos: makePhotos("Encerramento 2022", 6),
+    },
+  ],
 };
 
 export const NEWS_TAG_LIST = NEWS_TAGS;
