@@ -179,8 +179,6 @@ function ProjectDetail() {
   const publics = publicsOf(p);
   const steps = stepsOf(p);
   const metrics = metricsOf(p);
-  const testimony = testimonyOf(p);
-
   // Galeria interna: usa fotos sintéticas para o lightbox.
   const galleryLabels = [
     `${p.name} — bastidores`,
