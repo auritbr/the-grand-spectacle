@@ -1,6 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, ArrowRight, CalendarDays, MapPin, Users, Clock, Quote, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, MapPin, Users, Clock, Sparkles } from "lucide-react";
 import { StagePlaceholder } from "@/components/decor/CurtainBackdrop";
 import { Motif, JugglingArc, SilkRibbon, PicadeiroArc, StarSpark, RopeCurve, CornerOrnament, RingHoop, SpotlightBeam, BuntingRow } from "@/components/decor/CircusMotifs";
 import { Lightbox } from "@/components/Lightbox";
@@ -169,28 +169,6 @@ function metricsOf(p: Project): Metric[] {
   ];
 }
 
-type Testimony = { quote: string; author: string; role: string };
-function testimonyOf(p: Project): Testimony {
-  const cat = p.category.toLowerCase();
-  if (cat.includes("cria"))
-    return {
-      quote: "A residência ampliou o meu jeito de pensar o corpo em cena — cada aparelho passou a contar uma história diferente.",
-      author: "Sofia Prado",
-      role: "Artista aérea residente",
-    };
-  if (cat.includes("circul"))
-    return {
-      quote: "Quando o circo chega na praça, a rua vira picadeiro. As crianças correm, os avós sorriem, e a gente entende para que serve tudo isso.",
-      author: "Dona Aurora",
-      role: "Moradora da Vila Aurora",
-    };
-  return {
-    quote: "Meu filho descobriu no circo um lugar de pertencimento — hoje ele não vive sem as oficinas.",
-    author: "Marcia Souza",
-    role: "Mãe de participante",
-  };
-}
-
 /* =========================================================
    Página do projeto
    ========================================================= */
@@ -201,8 +179,6 @@ function ProjectDetail() {
   const publics = publicsOf(p);
   const steps = stepsOf(p);
   const metrics = metricsOf(p);
-  const testimony = testimonyOf(p);
-
   // Galeria interna: usa fotos sintéticas para o lightbox.
   const galleryLabels = [
     `${p.name} — bastidores`,
@@ -518,29 +494,6 @@ function ProjectDetail() {
         </div>
 
         <Lightbox images={galleryImages} index={lb} onClose={() => setLb(null)} onIndex={setLb} />
-      </section>
-
-      {/* ============ DEPOIMENTO ============ */}
-      <section className="relative overflow-hidden py-20" style={{ backgroundColor: t.soft }}>
-        <div className="container-page">
-          <div className="mx-auto grid max-w-4xl items-center gap-8 rounded-3xl border border-[color:var(--border)] bg-white p-8 shadow-md md:grid-cols-[160px_1fr] md:p-12">
-            <div className="relative mx-auto md:mx-0">
-              <div className="overflow-hidden rounded-full ring-4" style={{ ["--tw-ring-color" as any]: t.accent }}>
-                <StagePlaceholder label={testimony.author} ratio="aspect-square" className="!rounded-full !h-32 !w-32" />
-              </div>
-              <StarSpark aria-hidden className="pointer-events-none absolute -right-2 -top-2 h-4 w-4" style={{ color: t.accent }} />
-            </div>
-            <div>
-              <Quote className="h-8 w-8" style={{ color: t.primary }} aria-hidden />
-              <blockquote className="mt-3 font-display text-xl italic leading-snug text-[color:var(--navy)] md:text-2xl">
-                “{testimony.quote}”
-              </blockquote>
-              <RopeCurve aria-hidden className="mt-4 h-3 w-24" style={{ color: t.accent }} />
-              <p className="mt-4 text-sm font-semibold text-[color:var(--navy)]">{testimony.author}</p>
-              <p className="text-xs text-[color:var(--muted-foreground)]">{testimony.role}</p>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* ============ CTA FINAL ============ */}
