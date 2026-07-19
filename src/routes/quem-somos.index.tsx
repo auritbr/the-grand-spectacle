@@ -25,8 +25,8 @@ function QuemSomos() {
       <PageHero
         crumbs={[{ label: "Início", to: "/" }, { label: "Quem Somos" }]}
         eyebrow="Ponto de Cultura"
-        title="Um Ponto de Cultura dedicado às artes circenses"
-        intro="Formamos pessoas, sustentamos processos criativos e ocupamos territórios com apresentações que aproximam arte, corpo e comunidade."
+        title="Quem Somos"
+        intro="Um Ponto de Cultura dedicado à formação, à criação e à difusão das artes circenses."
       />
 
       {/* HISTÓRIA — texto e imagem lado a lado com ornamento */}
@@ -38,7 +38,7 @@ function QuemSomos() {
             <CornerOrnament aria-hidden className="absolute -bottom-3 -right-3 h-16 w-16 rotate-180 text-[color:var(--gold)]/70" />
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[color:var(--wine)]">Nossa história</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[color:var(--wine)]">Quem somos</p>
             <h2 className="mt-3 font-display text-3xl font-bold md:text-4xl">
               De coletivo de artistas a Ponto de Cultura reconhecido
             </h2>
@@ -160,8 +160,8 @@ function QuemSomos() {
                 <Button asChild className="bg-[color:var(--gold)] text-[color:var(--navy)] hover:brightness-110">
                   <Link to="/projetos">Conheça os projetos</Link>
                 </Button>
-                <Button asChild variant="outline" className="border-[color:var(--cream)]/40 text-[color:var(--cream)] hover:bg-[color:var(--cream)]/10">
-                  <Link to="/quem-somos/equipe">Conheça a equipe</Link>
+                <Button asChild variant="outline" className="border-[color:var(--cream)] bg-[color:var(--cream)] text-[color:var(--navy)] hover:bg-[color:var(--gold)] hover:text-[color:var(--navy)]">
+                  <Link to="/projetos">Conheça nossos projetos</Link>
                 </Button>
               </div>
             </div>
@@ -212,23 +212,43 @@ function QuemSomos() {
         </div>
       </section>
 
-      {/* Chamada transparência */}
+      {/* CTA FINAL — encerra Quem Somos */}
       <section className="container-page py-20">
-        <div className="relative overflow-hidden rounded-3xl bg-[color:var(--wine)] p-8 text-[color:var(--cream)] shadow-lg md:p-12">
-          <CornerOrnament aria-hidden className="pointer-events-none absolute -right-2 -top-2 h-32 w-32 text-[color:var(--gold)]/40" />
-          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-            <div className="max-w-xl">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[color:var(--gold)]">Acesso à informação</p>
-              <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">
-                Consulte nossos documentos, prestações de contas e certificados
-              </h2>
+        <div className="relative overflow-hidden rounded-3xl bg-[color:var(--navy)] text-[color:var(--cream)] shadow-xl">
+          <div className="absolute inset-0">
+            <StagePlaceholder
+              label="Comunidade no picadeiro"
+              ratio="aspect-auto h-full w-full"
+              className="!aspect-auto h-full w-full rounded-none"
+              variant="spot"
+            />
+          </div>
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-[color:var(--navy)]/95 via-[color:var(--navy)]/75 to-[color:var(--navy)]/30" />
+          <PicadeiroArc aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-20 w-full text-[color:var(--gold)]/50" />
+          <SilkRibbon aria-hidden className="pointer-events-none absolute -left-4 top-0 h-full w-20 text-[color:var(--wine)]/70" />
+          <SilkRibbon aria-hidden className="pointer-events-none absolute -right-4 top-0 h-full w-20 text-[color:var(--wine)]/70" />
+          <JugglingArc aria-hidden className="pointer-events-none absolute right-10 top-10 h-16 w-32 text-[color:var(--gold)]" />
+          <StarSpark aria-hidden className="pointer-events-none absolute left-12 top-16 h-4 w-4 text-[color:var(--gold)]" />
+          <StarSpark aria-hidden className="pointer-events-none absolute right-20 bottom-24 h-3 w-3 text-[color:var(--gold)]/80" />
+          <div className="relative px-8 py-16 md:px-14 md:py-20 lg:px-20">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold)]">
+              Um convite ao picadeiro
+            </p>
+            <h2 className="mt-3 max-w-3xl font-display text-3xl font-bold leading-tight md:text-[42px]">
+              O circo ganha vida quando a comunidade entra no picadeiro.
+            </h2>
+            <p className="mt-4 max-w-2xl text-[color:var(--cream)]/85 md:text-lg">
+              Conheça as ações, oficinas e apresentações que transformam o aprendizado artístico em experiências de
+              convivência, expressão e pertencimento.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button asChild className="bg-[color:var(--gold)] text-[color:var(--navy)] hover:brightness-110">
+                <Link to="/projetos">Conheça nossos projetos</Link>
+              </Button>
+              <Button asChild variant="outline" className="border-[color:var(--cream)] bg-transparent text-[color:var(--cream)] hover:bg-[color:var(--cream)] hover:text-[color:var(--navy)]">
+                <Link to="/contato">Fale com a gente</Link>
+              </Button>
             </div>
-            <Button
-              asChild
-              className="bg-[color:var(--cream)] text-[color:var(--wine)] hover:bg-[color:var(--gold)] hover:text-[color:var(--navy)]"
-            >
-              <Link to="/quem-somos/transparencia">Acessar o acervo público</Link>
-            </Button>
           </div>
         </div>
       </section>
