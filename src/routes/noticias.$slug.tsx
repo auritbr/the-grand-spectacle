@@ -1,6 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { CalendarDays, Clock, User } from "lucide-react";
+import { CalendarDays, Clock, User, Link2, Check, Facebook, Linkedin, Instagram, MessageCircle } from "lucide-react";
 import { StagePlaceholder } from "@/components/decor/CurtainBackdrop";
 import { NewsCard } from "@/components/cards/NewsCard";
 import { Lightbox } from "@/components/Lightbox";
@@ -137,7 +137,7 @@ function NewsDetail() {
           {/* Galeria interna */}
           <section className="mt-14 rounded-3xl bg-[color:var(--beige)] p-6 md:p-8">
             <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[color:var(--gold)]">Registros</p>
-            <h2 className="mt-1 font-display text-2xl font-bold text-[color:var(--wine)]">Galeria da cobertura</h2>
+            <h2 className="mt-1 font-display text-2xl font-bold text-[color:var(--wine)]">Galeria de fotos</h2>
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
               {gallery.map((g, i) => (
                 <button
@@ -153,34 +153,7 @@ function NewsDetail() {
             </div>
           </section>
 
-          {/* Compartilhamento */}
-          <div className="mt-12 flex flex-wrap items-center gap-3 border-t border-[color:var(--border)] pt-6 text-sm">
-            <span className="font-semibold text-[color:var(--wine)]">Compartilhe:</span>
-            <a
-              className="rounded-full border border-[color:var(--border)] px-4 py-1.5 hover:bg-[color:var(--beige)]"
-              href={`https://wa.me/?text=${shareText}%20${encodeURIComponent(shareUrl)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >WhatsApp</a>
-            <a
-              className="rounded-full border border-[color:var(--border)] px-4 py-1.5 hover:bg-[color:var(--beige)]"
-              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >Facebook</a>
-            <a
-              className="rounded-full border border-[color:var(--border)] px-4 py-1.5 hover:bg-[color:var(--beige)]"
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >LinkedIn</a>
-            <a
-              className="rounded-full border border-[color:var(--border)] px-4 py-1.5 hover:bg-[color:var(--beige)]"
-              href={`https://twitter.com/intent/tweet?text=${shareText}&url=${encodeURIComponent(shareUrl)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >X / Twitter</a>
-          </div>
+          <ShareBar url={shareUrl} text={shareText} />
 
           <div className="mt-10">
             <Link
@@ -210,5 +183,46 @@ function NewsDetail() {
         onIndex={setLb}
       />
     </>
+  );
+}
+
+function ShareBar({ url, text }: { url: string; text: string }) {
+  const [copied, setCopied] = useState(false);
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    } catch {
+      setCopied(false);
+    }
+  };
+  const btn =
+    "inline-flex h-12 items-center gap-2.5 rounded-full border border-[color:var(--navy)]/25 bg-[color:var(--card)] px-6 text-sm font-semibold text-[color:var(--navy)] transition-colors hover:bg-[color:var(--beige)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--wine)]";
+  return (
+    <div className="mt-12 border-t border-[color:var(--border)] pt-6">
+      <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+        <span className="font-display text-sm font-bold text-[color:var(--wine)]">Compartilhe:</span>
+        <a className={btn} href={`https://wa.me/?text=${text}%20${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" aria-label="Compartilhar no WhatsApp">
+          <MessageCircle className="h-4 w-4" aria-hidden /> WhatsApp
+        </a>
+        <a className={btn} href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" aria-label="Compartilhar no Facebook">
+          <Facebook className="h-4 w-4" aria-hidden /> Facebook
+        </a>
+        <a className={btn} href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" aria-label="Compartilhar no LinkedIn">
+          <Linkedin className="h-4 w-4" aria-hidden /> LinkedIn
+        </a>
+        <a className={btn} href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram">
+          <Instagram className="h-4 w-4" aria-hidden /> Instagram
+        </a>
+        <button type="button" onClick={copyLink} className={btn} aria-live="polite">
+          {copied ? <Check className="h-4 w-4" aria-hidden /> : <Link2 className="h-4 w-4" aria-hidden />}
+          {copied ? "Link copiado" : "Copiar link"}
+        </button>
+      </div>
+      {copied && (
+        <p className="mt-3 text-xs font-medium text-[color:var(--wine)]">Link copiado com sucesso.</p>
+      )}
+    </div>
   );
 }
