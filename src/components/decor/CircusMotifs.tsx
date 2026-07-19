@@ -2,12 +2,12 @@
 // Todos são decorativos, ficam com aria-hidden e herdam cor via currentColor
 // quando aplicável.
 
-type Props = { className?: string };
+type Props = { className?: string; style?: React.CSSProperties; "aria-hidden"?: boolean | "true" | "false" };
 
 /** Trajetória de 3 bolas de malabarismo em arco. */
-export function JugglingArc({ className = "" }: Props) {
+export function JugglingArc({ className = "", style }: Props) {
   return (
-    <svg viewBox="0 0 160 80" aria-hidden className={className}>
+    <svg viewBox="0 0 160 80" aria-hidden className={className} style={style}>
       <path d="M8 70 Q 80 -10 152 70" fill="none" stroke="currentColor" strokeWidth="1.2" strokeDasharray="2 4" opacity="0.55" />
       <circle cx="30" cy="46" r="7" fill="currentColor" />
       <circle cx="80" cy="14" r="7" fill="currentColor" opacity="0.85" />
@@ -17,9 +17,9 @@ export function JugglingArc({ className = "" }: Props) {
 }
 
 /** Faixa vertical curva evocando tecido aéreo. */
-export function SilkRibbon({ className = "" }: Props) {
+export function SilkRibbon({ className = "", style }: Props) {
   return (
-    <svg viewBox="0 0 60 240" aria-hidden className={className}>
+    <svg viewBox="0 0 60 240" aria-hidden className={className} style={style}>
       <defs>
         <linearGradient id="silk" x1="0" x2="1" y1="0" y2="0">
           <stop offset="0%" stopColor="currentColor" stopOpacity="0.15" />
@@ -33,9 +33,9 @@ export function SilkRibbon({ className = "" }: Props) {
 }
 
 /** Aros concêntricos — inspirado em lira / aro aéreo. */
-export function RingHoop({ className = "" }: Props) {
+export function RingHoop({ className = "", style }: Props) {
   return (
-    <svg viewBox="0 0 120 120" aria-hidden className={className}>
+    <svg viewBox="0 0 120 120" aria-hidden className={className} style={style}>
       <circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" strokeWidth="2" opacity="0.85" />
       <circle cx="60" cy="60" r="40" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.45" />
       <circle cx="60" cy="60" r="28" fill="none" stroke="currentColor" strokeWidth="0.8" opacity="0.25" />
@@ -45,9 +45,9 @@ export function RingHoop({ className = "" }: Props) {
 }
 
 /** Estrela pequena e discreta (cinco pontas). */
-export function StarSpark({ className = "" }: Props) {
+export function StarSpark({ className = "", style }: Props) {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden className={className}>
+    <svg viewBox="0 0 24 24" aria-hidden className={className} style={style}>
       <path
         d="M12 2 L14 9 L22 10 L16 15 L18 22 L12 18 L6 22 L8 15 L2 10 L10 9 Z"
         fill="currentColor"
@@ -57,9 +57,9 @@ export function StarSpark({ className = "" }: Props) {
 }
 
 /** Curva grossa evocando corda. */
-export function RopeCurve({ className = "" }: Props) {
+export function RopeCurve({ className = "", style }: Props) {
   return (
-    <svg viewBox="0 0 200 40" aria-hidden className={className}>
+    <svg viewBox="0 0 200 40" aria-hidden className={className} style={style}>
       <path d="M0 20 Q 50 -10 100 20 T 200 20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.8" />
       <path d="M0 20 Q 50 -10 100 20 T 200 20" stroke="currentColor" strokeWidth="1" fill="none" strokeLinecap="round" strokeDasharray="1 6" />
     </svg>
@@ -67,9 +67,9 @@ export function RopeCurve({ className = "" }: Props) {
 }
 
 /** Arco de picadeiro — moldura em meia-lua. */
-export function PicadeiroArc({ className = "" }: Props) {
+export function PicadeiroArc({ className = "", style }: Props) {
   return (
-    <svg viewBox="0 0 400 120" aria-hidden preserveAspectRatio="none" className={className}>
+    <svg viewBox="0 0 400 120" aria-hidden preserveAspectRatio="none" className={className} style={style}>
       <path d="M0 120 Q 200 -40 400 120" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.75" />
       <path d="M0 120 Q 200 -10 400 120" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.35" />
       <circle cx="10" cy="120" r="4" fill="currentColor" opacity="0.75" />
@@ -79,9 +79,9 @@ export function PicadeiroArc({ className = "" }: Props) {
 }
 
 /** Cone/feixe de luz cênica. */
-export function SpotlightBeam({ className = "" }: Props) {
+export function SpotlightBeam({ className = "", style }: Props) {
   return (
-    <svg viewBox="0 0 200 200" aria-hidden className={className}>
+    <svg viewBox="0 0 200 200" aria-hidden className={className} style={style}>
       <defs>
         <radialGradient id="beam" cx="50%" cy="0%" r="90%">
           <stop offset="0%" stopColor="currentColor" stopOpacity="0.6" />
@@ -95,9 +95,9 @@ export function SpotlightBeam({ className = "" }: Props) {
 }
 
 /** Bandeirolas abstratas em fila. */
-export function BuntingRow({ className = "" }: Props) {
+export function BuntingRow({ className = "", style }: Props) {
   return (
-    <svg viewBox="0 0 240 40" aria-hidden className={className}>
+    <svg viewBox="0 0 240 40" aria-hidden className={className} style={style}>
       <path d="M0 4 Q 120 20 240 4" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.6" />
       {Array.from({ length: 10 }).map((_, i) => {
         const x = 12 + i * 24;
@@ -116,9 +116,9 @@ export function BuntingRow({ className = "" }: Props) {
 }
 
 /** Linha de arame com tensão nas pontas. */
-export function TightropeLine({ className = "" }: Props) {
+export function TightropeLine({ className = "", style }: Props) {
   return (
-    <svg viewBox="0 0 240 20" aria-hidden className={className}>
+    <svg viewBox="0 0 240 20" aria-hidden className={className} style={style}>
       <line x1="4" y1="10" x2="236" y2="10" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="4" cy="10" r="4" fill="currentColor" />
       <circle cx="236" cy="10" r="4" fill="currentColor" />
@@ -127,9 +127,9 @@ export function TightropeLine({ className = "" }: Props) {
 }
 
 /** Ornamento de canto (estrela + linhas de movimento). */
-export function CornerOrnament({ className = "" }: Props) {
+export function CornerOrnament({ className = "", style }: Props) {
   return (
-    <svg viewBox="0 0 80 80" aria-hidden className={className}>
+    <svg viewBox="0 0 80 80" aria-hidden className={className} style={style}>
       <path d="M0 40 Q 40 0 80 40" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.6" />
       <path d="M0 55 Q 40 15 80 55" stroke="currentColor" strokeWidth="1" fill="none" opacity="0.35" />
       <circle cx="40" cy="30" r="2.5" fill="currentColor" />
@@ -148,25 +148,25 @@ export function SectionArc({ className = "" }: { className?: string }) {
 }
 
 /** Escolhe motivo por chave. Retorna um componente <svg/>. */
-export function Motif({ kind, className }: { kind: string; className?: string }) {
+export function Motif({ kind, className, style }: { kind: string; className?: string; style?: React.CSSProperties }) {
   switch (kind) {
     case "juggle":
-      return <JugglingArc className={className} />;
+      return <JugglingArc className={className} style={style} />;
     case "silk":
-      return <SilkRibbon className={className} />;
+      return <SilkRibbon className={className} style={style} />;
     case "ring":
-      return <RingHoop className={className} />;
+      return <RingHoop className={className} style={style} />;
     case "star":
-      return <StarSpark className={className} />;
+      return <StarSpark className={className} style={style} />;
     case "rope":
-      return <RopeCurve className={className} />;
+      return <RopeCurve className={className} style={style} />;
     case "arc":
-      return <PicadeiroArc className={className} />;
+      return <PicadeiroArc className={className} style={style} />;
     case "spotlight":
-      return <SpotlightBeam className={className} />;
+      return <SpotlightBeam className={className} style={style} />;
     case "bunting":
-      return <BuntingRow className={className} />;
+      return <BuntingRow className={className} style={style} />;
     default:
-      return <StarSpark className={className} />;
+      return <StarSpark className={className} style={style} />;
   }
 }

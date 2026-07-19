@@ -113,52 +113,52 @@ function Transparencia() {
         </div>
       </header>
 
-      {/* Cabeçalho da seção Acervo — proporções compactas */}
-      <header className="container-page pb-8 pt-20 text-center md:pt-24">
-        <div className="inline-flex items-center gap-2 text-[color:var(--navy)]">
-          <Archive className="h-4 w-4" aria-hidden />
+      {/* Cabeçalho da seção Acervo — compacto */}
+      <header className="container-page pt-14 pb-10 text-center md:pt-16 md:pb-12">
+        <div className="inline-flex items-center gap-1.5 text-[color:var(--navy)]">
+          <Archive className="h-[18px] w-[18px]" aria-hidden />
           <span className="text-[13px] font-semibold uppercase tracking-[0.28em]">Acervo</span>
         </div>
-        <h2 className="mt-4 font-display text-[38px] font-bold leading-tight text-[color:var(--navy)] md:text-[44px]">
+        <h2 className="mt-3 font-display text-3xl font-bold leading-tight text-[color:var(--navy)] md:text-[40px]">
           Acervo institucional
         </h2>
-        <RopeCurve aria-hidden className="mx-auto mt-4 h-4 w-32 text-[color:var(--gold)]" />
-        <p className="mx-auto mt-4 max-w-[820px] text-[17px] text-[color:var(--muted-foreground)] md:text-[18px]">
+        <RopeCurve aria-hidden className="mx-auto mt-3 h-3 w-20 text-[color:var(--gold)]" />
+        <p className="mx-auto mt-4 max-w-[760px] text-[16px] leading-[1.55] text-[color:var(--muted-foreground)] md:text-[18px]">
           Acesse documentos, certificados, reconhecimentos, portfólios e registros institucionais, organizados por
           categoria para facilitar a consulta pública.
         </p>
       </header>
 
       {/* Acordeões */}
-      <section className="container-page pb-24">
-        <div className="mx-auto w-full max-w-5xl space-y-5">
+      <section className="container-page pb-20">
+        <div className="mx-auto w-full max-w-5xl space-y-4">
           {GROUP_ORDER.map((g) => {
             const docs = grouped.get(g) ?? [];
             const open = openGroups.has(g);
             return (
               <div
                 key={g}
-                className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+                className="overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
               >
                 <button
                   type="button"
                   onClick={() => toggleGroup(g)}
                   aria-expanded={open}
-                  className="flex w-full items-center gap-5 px-6 py-5 text-left md:px-8 md:py-6"
+                  className="flex min-h-[86px] w-full items-center gap-4 px-6 py-4 text-left md:px-8"
                 >
-                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-slate-100 text-[color:var(--navy)]">
-                    <Archive className="h-5 w-5" aria-hidden />
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-slate-100 text-[color:var(--navy)]">
+                    <Archive className="h-[18px] w-[18px]" aria-hidden />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block font-display text-[19px] font-bold text-[color:var(--navy)] md:text-[20px]">
+                    <span className="block font-display text-[17px] font-bold text-[color:var(--navy)] md:text-[19px]">
                       {g}
                     </span>
-                    <span className="mt-0.5 block text-[14px] text-slate-500">
+                    <span className="mt-1 block text-[14px] text-slate-500">
                       ({docs.length} {docs.length === 1 ? "documento" : "documentos"})
                     </span>
                   </span>
                   <ChevronDown
-                    className={`h-5 w-5 shrink-0 text-slate-500 transition-transform ${open ? "rotate-180" : ""}`}
+                    className={`h-4 w-4 shrink-0 text-slate-500 transition-transform ${open ? "rotate-180" : ""}`}
                     aria-hidden
                   />
                 </button>

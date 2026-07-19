@@ -13,7 +13,7 @@ const NAV: NavItem[] = [
     label: "Quem Somos",
     to: "/quem-somos",
     children: [
-      { label: "Nossa História", to: "/quem-somos" },
+      { label: "Quem Somos", to: "/quem-somos" },
       { label: "Equipe", to: "/quem-somos/equipe" },
       { label: "Transparência", to: "/quem-somos/transparencia" },
     ],

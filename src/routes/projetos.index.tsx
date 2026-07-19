@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
 import { ArrowUpRight, CalendarDays, MapPin, Users } from "lucide-react";
 import { PageHero } from "@/components/layout/PageHero";
 import { ProjectCard } from "@/components/cards/ProjectCard";
@@ -23,16 +22,7 @@ export const Route = createFileRoute("/projetos/")({
 });
 
 function Projetos() {
-  const [cat, setCat] = useState<string>("Todos");
-  const [status, setStatus] = useState<string>("Todos");
-  const cats = ["Todos", ...Array.from(new Set(PROJECTS.map((p) => p.category)))];
-  const statuses = ["Todos", "Ativo", "Contínuo", "Concluído"];
-  const list = useMemo(
-    () =>
-      PROJECTS.filter((p) => (cat === "Todos" || p.category === cat) && (status === "Todos" || p.status === status)),
-    [cat, status],
-  );
-
+  const list = PROJECTS;
   const highlights = list.filter((p) => p.highlight);
   const rest = list.filter((p) => !p.highlight);
 
@@ -65,20 +55,9 @@ function Projetos() {
         </div>
       </section>
 
-      <section className="container-page pt-14">
-        {/* Filtros elegantes em cartão */}
-        <div className="flex flex-wrap items-center gap-6 rounded-2xl border border-[color:var(--border)] bg-[color:var(--card)] p-5 shadow-sm">
-          <Filter label="Categoria" options={cats} value={cat} onChange={setCat} />
-          <Filter label="Situação" options={statuses} value={status} onChange={setStatus} />
-          <p className="ml-auto text-xs text-[color:var(--muted-foreground)]">
-            Exibindo <strong>{list.length}</strong> {list.length === 1 ? "projeto" : "projetos"}
-          </p>
-        </div>
-      </section>
-
       {/* DESTAQUES em layout editorial alternado */}
       {highlights.length > 0 && (
-        <section className="container-page py-16">
+        <section className="container-page pt-4 pb-16">
           <div className="mb-10 max-w-2xl">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[color:var(--wine)]">
               Projetos em destaque
@@ -114,14 +93,8 @@ function Projetos() {
         </section>
       )}
 
-      {list.length === 0 && (
-        <section className="container-page py-24 text-center">
-          <p className="text-[color:var(--muted-foreground)]">Nenhum projeto encontrado com os filtros atuais.</p>
-        </section>
-      )}
-
       {/* CTA FINAL */}
-      <section className="container-page py-20">
+      <section className="container-page py-14">
         <div className="relative overflow-hidden rounded-3xl bg-[color:var(--wine)] text-[color:var(--cream)] shadow-xl">
           <div className="absolute inset-0">
             <StagePlaceholder
@@ -132,24 +105,24 @@ function Projetos() {
             />
           </div>
           <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-[color:var(--wine)]/95 via-[color:var(--wine)]/80 to-[color:var(--wine)]/40" />
-          <PicadeiroArc aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-20 w-full text-[color:var(--gold)]/60" />
-          <JugglingArc aria-hidden className="pointer-events-none absolute right-8 top-8 h-16 w-40 text-[color:var(--gold)]" />
-          <StarSpark aria-hidden className="pointer-events-none absolute left-10 top-10 h-4 w-4 text-[color:var(--gold)]" />
-          <div className="relative px-8 py-14 md:px-14 md:py-20">
+          <PicadeiroArc aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-14 w-full text-[color:var(--gold)]/60" />
+          <JugglingArc aria-hidden className="pointer-events-none absolute right-8 top-6 h-12 w-32 text-[color:var(--gold)]" />
+          <StarSpark aria-hidden className="pointer-events-none absolute left-10 top-10 h-3 w-3 text-[color:var(--gold)]" />
+          <div className="relative px-8 py-12 md:px-14 md:py-14">
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold)]">
               Leve o circo até você
             </p>
-            <h2 className="mt-3 max-w-3xl font-display text-3xl font-bold leading-tight md:text-[40px]">
+            <h2 className="mt-3 max-w-[680px] font-display text-3xl font-bold leading-tight md:text-[36px]">
               Quer levar uma atividade circense para sua comunidade?
             </h2>
-            <p className="mt-4 max-w-2xl text-[color:var(--cream)]/85 md:text-lg">
+            <p className="mt-3 max-w-[680px] text-[color:var(--cream)]/85 md:text-[18px]">
               Entre em contato para conhecer possibilidades de oficinas, apresentações, parcerias e ações culturais.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild className="bg-[color:var(--gold)] text-[color:var(--navy)] hover:brightness-110">
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button asChild className="h-11 bg-[color:var(--gold)] text-[color:var(--navy)] hover:brightness-110">
                 <Link to="/contato">Fale conosco</Link>
               </Button>
-              <Button asChild variant="outline" className="border-[color:var(--cream)] bg-transparent text-[color:var(--cream)] hover:bg-[color:var(--cream)] hover:text-[color:var(--wine)]">
+              <Button asChild variant="outline" className="h-11 border-[color:var(--cream)] bg-transparent text-[color:var(--cream)] hover:bg-[color:var(--cream)] hover:text-[color:var(--wine)]">
                 <Link to="/quem-somos">Conheça nossa história</Link>
               </Button>
             </div>
@@ -258,22 +231,5 @@ function FeatureRow({ p, reverse }: { p: Project; reverse?: boolean }) {
         </Link>
       </div>
     </article>
-  );
-}
-
-function Filter({ label, options, value, onChange }: { label: string; options: string[]; value: string; onChange: (v: string) => void }) {
-  return (
-    <label className="flex items-center gap-2 text-sm">
-      <span className="text-[color:var(--muted-foreground)]">{label}:</span>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="rounded-md border border-[color:var(--border)] bg-[color:var(--card)] px-3 py-1.5 text-sm"
-      >
-        {options.map((o) => (
-          <option key={o} value={o}>{o}</option>
-        ))}
-      </select>
-    </label>
   );
 }
