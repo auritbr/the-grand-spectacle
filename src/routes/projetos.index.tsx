@@ -4,7 +4,8 @@ import { ArrowUpRight, CalendarDays, MapPin, Users } from "lucide-react";
 import { PageHero } from "@/components/layout/PageHero";
 import { ProjectCard } from "@/components/cards/ProjectCard";
 import { StagePlaceholder } from "@/components/decor/CurtainBackdrop";
-import { Motif, RopeCurve, StarSpark } from "@/components/decor/CircusMotifs";
+import { Motif, RopeCurve, StarSpark, JugglingArc, SilkRibbon, PicadeiroArc, BuntingRow, SpotlightBeam, CornerOrnament } from "@/components/decor/CircusMotifs";
+import { Button } from "@/components/ui/button";
 import { PROJECTS, type Project } from "@/lib/site-data";
 
 export const Route = createFileRoute("/projetos/")({
@@ -40,9 +41,29 @@ function Projetos() {
       <PageHero
         crumbs={[{ label: "Início", to: "/" }, { label: "Projetos" }]}
         eyebrow="Programas do Ponto de Cultura"
-        title="Projetos em formação, criação e circulação"
-        intro="Iniciativas contínuas que unem formação artística, criação cênica, circulação comunitária e preservação da memória circense."
+        title="Projetos"
+        intro="Formação, criação e circulação das artes circenses junto à comunidade."
       />
+
+      {/* INTRODUÇÃO curta e visual */}
+      <section className="relative overflow-hidden bg-[color:var(--cream)] py-16">
+        <StarSpark aria-hidden className="pointer-events-none absolute left-10 top-10 h-4 w-4 text-[color:var(--gold)]" />
+        <StarSpark aria-hidden className="pointer-events-none absolute right-16 bottom-16 h-3 w-3 text-[color:var(--wine)]" />
+        <JugglingArc aria-hidden className="pointer-events-none absolute right-8 top-8 h-16 w-40 text-[color:var(--gold)]" />
+        <RopeCurve aria-hidden className="pointer-events-none absolute -left-10 bottom-4 h-8 w-64 text-[color:var(--wine)]/50" />
+        <div className="container-page relative text-center">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--wine)]">
+            Nossos projetos
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-bold text-[color:var(--navy)] md:text-4xl">
+            Aprender, criar e compartilhar
+          </h2>
+          <RopeCurve aria-hidden className="mx-auto mt-4 h-4 w-32 text-[color:var(--gold)]" />
+          <p className="mx-auto mt-4 max-w-2xl text-[color:var(--muted-foreground)] md:text-lg">
+            Cada projeto nasce do encontro entre prática artística, formação cultural e participação comunitária.
+          </p>
+        </div>
+      </section>
 
       <section className="container-page pt-14">
         {/* Filtros elegantes em cartão */}
@@ -68,7 +89,7 @@ function Projetos() {
             <RopeCurve className="mt-3 h-4 w-40 text-[color:var(--gold)]" />
           </div>
 
-          <div className="space-y-16">
+          <div className="space-y-24">
             {highlights.map((p, i) => (
               <FeatureRow key={p.slug} p={p} reverse={i % 2 === 1} />
             ))}
@@ -98,6 +119,43 @@ function Projetos() {
           <p className="text-[color:var(--muted-foreground)]">Nenhum projeto encontrado com os filtros atuais.</p>
         </section>
       )}
+
+      {/* CTA FINAL */}
+      <section className="container-page py-20">
+        <div className="relative overflow-hidden rounded-3xl bg-[color:var(--wine)] text-[color:var(--cream)] shadow-xl">
+          <div className="absolute inset-0">
+            <StagePlaceholder
+              label="Atividade circense na comunidade"
+              ratio="aspect-auto h-full w-full"
+              className="!aspect-auto h-full w-full rounded-none"
+              variant="juggle"
+            />
+          </div>
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-[color:var(--wine)]/95 via-[color:var(--wine)]/80 to-[color:var(--wine)]/40" />
+          <PicadeiroArc aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-20 w-full text-[color:var(--gold)]/60" />
+          <JugglingArc aria-hidden className="pointer-events-none absolute right-8 top-8 h-16 w-40 text-[color:var(--gold)]" />
+          <StarSpark aria-hidden className="pointer-events-none absolute left-10 top-10 h-4 w-4 text-[color:var(--gold)]" />
+          <div className="relative px-8 py-14 md:px-14 md:py-20">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold)]">
+              Leve o circo até você
+            </p>
+            <h2 className="mt-3 max-w-3xl font-display text-3xl font-bold leading-tight md:text-[40px]">
+              Quer levar uma atividade circense para sua comunidade?
+            </h2>
+            <p className="mt-4 max-w-2xl text-[color:var(--cream)]/85 md:text-lg">
+              Entre em contato para conhecer possibilidades de oficinas, apresentações, parcerias e ações culturais.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button asChild className="bg-[color:var(--gold)] text-[color:var(--navy)] hover:brightness-110">
+                <Link to="/contato">Fale conosco</Link>
+              </Button>
+              <Button asChild variant="outline" className="border-[color:var(--cream)] bg-transparent text-[color:var(--cream)] hover:bg-[color:var(--cream)] hover:text-[color:var(--wine)]">
+                <Link to="/quem-somos">Conheça nossa história</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
@@ -109,13 +167,59 @@ function FeatureRow({ p, reverse }: { p: Project; reverse?: boolean }) {
     p.colorKey === "navy" ? "var(--navy)" :
     "var(--wine)";
 
+  // Ornamentos por categoria — cada projeto ganha um repertório visual próprio.
+  const cat = p.category.toLowerCase();
+  const isFormacao = cat.includes("forma");
+  const isCriacao = cat.includes("cria");
+  const isCirculacao = cat.includes("circul");
+
   return (
-    <article className={`grid items-center gap-10 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
+    <article className={`relative grid items-center gap-14 md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
+      {/* Coluna da imagem com composição gráfica */}
       <div className="relative">
-        <StagePlaceholder label={p.name} ratio="aspect-[4/3]" />
+        {/* bloco de cor atrás da imagem */}
         <span
           aria-hidden
-          className="absolute -bottom-4 -left-4 grid h-16 w-16 place-items-center rounded-2xl bg-[color:var(--cream)] shadow-lg"
+          className={`absolute -z-10 h-[90%] w-[85%] rounded-3xl ${reverse ? "-right-6 -top-6" : "-left-6 -top-6"}`}
+          style={{ background: accent, opacity: 0.9 }}
+        />
+        {/* fotografia com recorte assimétrico */}
+        <div className="relative overflow-hidden rounded-[28px] shadow-2xl">
+          <StagePlaceholder label={p.name} ratio="aspect-[4/3]" className="!rounded-[28px]" />
+          <SpotlightBeam aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-24 w-full text-[color:var(--gold)]" />
+        </div>
+
+        {/* Ornamentos temáticos */}
+        {isFormacao && (
+          <>
+            <span aria-hidden className="absolute -top-6 left-4 flex gap-2">
+              <span className="h-4 w-4 rounded-full bg-[color:var(--gold)]" />
+              <span className="h-4 w-4 rounded-full bg-[color:var(--wine)]" />
+              <span className="h-4 w-4 rounded-full bg-[color:var(--navy)]" />
+            </span>
+            <JugglingArc aria-hidden className={`pointer-events-none absolute -bottom-8 h-16 w-40 text-[color:var(--gold)] ${reverse ? "-left-4" : "-right-4"}`} />
+            <PicadeiroArc aria-hidden className={`pointer-events-none absolute -bottom-2 h-8 w-32 text-[color:var(--gold)]/80 ${reverse ? "right-4" : "left-4"}`} />
+          </>
+        )}
+        {isCriacao && (
+          <>
+            <SilkRibbon aria-hidden className={`pointer-events-none absolute top-0 h-full w-16 text-[color:var(--gold)] ${reverse ? "-right-6" : "-left-6"}`} />
+            <span aria-hidden className={`absolute -top-8 h-20 w-20 rounded-full bg-[color:var(--gold)]/60 ${reverse ? "left-6" : "right-6"}`} />
+            <StarSpark aria-hidden className={`pointer-events-none absolute -top-4 h-6 w-6 text-[color:var(--wine)] ${reverse ? "right-10" : "left-10"}`} />
+          </>
+        )}
+        {isCirculacao && (
+          <>
+            <PicadeiroArc aria-hidden className="pointer-events-none absolute -bottom-4 inset-x-0 h-12 w-full text-[color:var(--gold)]" />
+            <BuntingRow aria-hidden className="pointer-events-none absolute -top-6 inset-x-0 h-10 w-full text-[color:var(--wine)]" />
+            <StarSpark aria-hidden className={`pointer-events-none absolute bottom-4 h-5 w-5 text-[color:var(--gold)] ${reverse ? "left-6" : "right-6"}`} />
+          </>
+        )}
+
+        {/* Ícone circular do motivo — canto */}
+        <span
+          aria-hidden
+          className={`absolute grid h-16 w-16 place-items-center rounded-2xl bg-[color:var(--cream)] shadow-lg ${reverse ? "-bottom-4 -right-4" : "-bottom-4 -left-4"}`}
           style={{ color: accent }}
         >
           <Motif kind={p.motif ?? "star"} className="h-9 w-9" />
@@ -135,6 +239,7 @@ function FeatureRow({ p, reverse }: { p: Project; reverse?: boolean }) {
           </span>
         </div>
         <h3 className="mt-4 font-display text-2xl font-bold md:text-3xl">{p.name}</h3>
+        <RopeCurve aria-hidden className="mt-3 h-3 w-24 text-[color:var(--gold)]" />
         <p className="mt-3 text-[color:var(--muted-foreground)]">{p.summary}</p>
 
         <ul className="mt-6 grid gap-2 text-sm text-[color:var(--foreground)]/85 sm:grid-cols-2">

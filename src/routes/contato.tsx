@@ -68,14 +68,23 @@ function Contato() {
         title="Vamos conversar"
         intro="Parcerias, imprensa, apoios ou dúvidas — estamos à disposição."
       />
-      <section className="container-page grid gap-10 py-16 md:grid-cols-[1fr_360px]">
-        <form onSubmit={onSubmit} noValidate className="space-y-4 rounded-2xl border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-sm">
+      <section className="container-page grid gap-10 py-16 md:grid-cols-[360px_minmax(0,1fr)]">
+        <aside className="space-y-6">
+          <InfoBox icon={MapPin} title="Endereço">{SITE.address}</InfoBox>
+          <InfoBox icon={Mail} title="E-mail"><a href={`mailto:${SITE.email}`} className="hover:text-[color:var(--wine)]">{SITE.email}</a></InfoBox>
+          <InfoBox icon={Phone} title="Telefone">{SITE.phone}</InfoBox>
+          <InfoBox icon={Clock} title="Horário">{SITE.hours}</InfoBox>
+          <div className="overflow-hidden rounded-2xl border border-[color:var(--border)] aspect-[4/3]">
+            <iframe title="Mapa da sede" src="https://www.openstreetmap.org/export/embed.html?bbox=-46.66,-23.56,-46.62,-23.53&layer=mapnik" className="h-full w-full" />
+          </div>
+        </aside>
+        <form onSubmit={onSubmit} noValidate className="w-full max-w-[640px] space-y-4 rounded-2xl border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-sm md:justify-self-start">
           <Field id="name" label="Nome" error={errors.name} />
           <Field id="email" label="E-mail" type="email" error={errors.email} />
           <Field id="subject" label="Assunto" error={errors.subject} />
           <div>
             <label htmlFor="category" className="mb-1 block text-sm font-medium">Categoria</label>
-            <select id="category" name="category" className="h-11 w-full rounded-md border border-[color:var(--border)] bg-[color:var(--background)] px-3">
+            <select id="category" name="category" className="h-12 w-full rounded-md border border-[color:var(--border)] bg-[color:var(--background)] px-3">
               <option value="">Selecione...</option>
               <option>Informações gerais</option>
               <option>Parceria / Apoio</option>
@@ -87,7 +96,7 @@ function Contato() {
           </div>
           <div>
             <label htmlFor="message" className="mb-1 block text-sm font-medium">Mensagem</label>
-            <textarea id="message" name="message" rows={6} className="w-full rounded-md border border-[color:var(--border)] bg-[color:var(--background)] p-3" />
+            <textarea id="message" name="message" rows={6} className="min-h-[160px] w-full rounded-md border border-[color:var(--border)] bg-[color:var(--background)] p-3" />
             {errors.message && <p className="mt-1 text-xs text-[color:var(--destructive)]">{errors.message}</p>}
           </div>
           <label className="flex items-start gap-2 text-sm">
@@ -95,20 +104,10 @@ function Contato() {
             <span>Concordo em ser contatado(a) e li a <a href="/politica-de-privacidade" className="underline">Política de Privacidade</a>.</span>
           </label>
           {errors.consent && <p className="text-xs text-[color:var(--destructive)]">{errors.consent}</p>}
-          <Button disabled={loading} type="submit" className="w-full bg-[color:var(--wine)] text-[color:var(--cream)] hover:bg-[color:var(--wine-deep)]">
+          <Button disabled={loading} type="submit" className="bg-[color:var(--wine)] px-8 text-[color:var(--cream)] hover:bg-[color:var(--wine-deep)] sm:w-auto">
             {loading ? "Enviando..." : "Enviar mensagem"}
           </Button>
         </form>
-
-        <aside className="space-y-6">
-          <InfoBox icon={MapPin} title="Endereço">{SITE.address}</InfoBox>
-          <InfoBox icon={Mail} title="E-mail"><a href={`mailto:${SITE.email}`} className="hover:text-[color:var(--wine)]">{SITE.email}</a></InfoBox>
-          <InfoBox icon={Phone} title="Telefone">{SITE.phone}</InfoBox>
-          <InfoBox icon={Clock} title="Horário">{SITE.hours}</InfoBox>
-          <div className="overflow-hidden rounded-2xl border border-[color:var(--border)] aspect-[4/3]">
-            <iframe title="Mapa da sede" src="https://www.openstreetmap.org/export/embed.html?bbox=-46.66,-23.56,-46.62,-23.53&layer=mapnik" className="h-full w-full" />
-          </div>
-        </aside>
       </section>
     </>
   );
@@ -118,7 +117,7 @@ function Field({ id, label, type = "text", error }: { id: string; label: string;
   return (
     <div>
       <label htmlFor={id} className="mb-1 block text-sm font-medium">{label}</label>
-      <input id={id} name={id} type={type} className="h-11 w-full rounded-md border border-[color:var(--border)] bg-[color:var(--background)] px-3" />
+      <input id={id} name={id} type={type} className="h-12 w-full rounded-md border border-[color:var(--border)] bg-[color:var(--background)] px-3" />
       {error && <p className="mt-1 text-xs text-[color:var(--destructive)]">{error}</p>}
     </div>
   );
