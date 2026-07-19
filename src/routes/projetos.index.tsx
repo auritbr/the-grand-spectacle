@@ -239,7 +239,7 @@ function FeatureRow({ p, reverse }: { p: Project; reverse?: boolean }) {
           </span>
         </div>
         <h3 className="mt-4 font-display text-2xl font-bold md:text-3xl">{p.name}</h3>
-        <RopeCurve aria-hidden className="mt-3 h-3 w-24" style={{ color: accent }} />
+        <RopeCurve aria-hidden className="mt-3 h-3 w-24 text-[color:var(--gold)]" />
         <p className="mt-3 text-[color:var(--muted-foreground)]">{p.summary}</p>
 
         <ul className="mt-6 grid gap-2 text-sm text-[color:var(--foreground)]/85 sm:grid-cols-2">
