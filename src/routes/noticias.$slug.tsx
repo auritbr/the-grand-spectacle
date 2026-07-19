@@ -203,25 +203,25 @@ function ShareBar({ url, text }: { url: string; text: string }) {
     }
   };
   const btn =
-    "inline-flex h-12 items-center gap-2.5 rounded-full border border-[color:var(--navy)]/25 bg-[color:var(--card)] px-6 text-sm font-semibold text-[color:var(--navy)] transition-colors hover:bg-[color:var(--beige)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--wine)]";
+    "inline-flex h-10 items-center gap-2 rounded-full border border-[color:var(--navy)]/25 bg-[color:var(--card)] px-4 text-[13px] font-semibold text-[color:var(--navy)] transition-colors hover:bg-[color:var(--beige)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--wine)]";
   return (
     <div className="mt-12 border-t border-[color:var(--border)] pt-6">
-      <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-        <span className="font-display text-sm font-bold text-[color:var(--wine)]">Compartilhe:</span>
+      <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+        <span className="font-display text-[13px] font-bold text-[color:var(--wine)]">Compartilhe:</span>
         <a className={btn} href={`https://wa.me/?text=${text}%20${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" aria-label="Compartilhar no WhatsApp">
-          <MessageCircle className="h-4 w-4" aria-hidden /> WhatsApp
+          <MessageCircle className="h-[18px] w-[18px]" aria-hidden /> WhatsApp
         </a>
         <a className={btn} href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" aria-label="Compartilhar no Facebook">
-          <Facebook className="h-4 w-4" aria-hidden /> Facebook
+          <Facebook className="h-[18px] w-[18px]" aria-hidden /> Facebook
         </a>
         <a className={btn} href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" aria-label="Compartilhar no LinkedIn">
-          <Linkedin className="h-4 w-4" aria-hidden /> LinkedIn
+          <Linkedin className="h-[18px] w-[18px]" aria-hidden /> LinkedIn
         </a>
         <a className={btn} href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram">
-          <Instagram className="h-4 w-4" aria-hidden /> Instagram
+          <Instagram className="h-[18px] w-[18px]" aria-hidden /> Instagram
         </a>
         <button type="button" onClick={copyLink} className={btn} aria-live="polite">
-          {copied ? <Check className="h-4 w-4" aria-hidden /> : <Link2 className="h-4 w-4" aria-hidden />}
+          {copied ? <Check className="h-[18px] w-[18px]" aria-hidden /> : <Link2 className="h-[18px] w-[18px]" aria-hidden />}
           {copied ? "Link copiado" : "Copiar link"}
         </button>
       </div>
