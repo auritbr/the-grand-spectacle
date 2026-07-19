@@ -476,7 +476,7 @@ function ProjectDetail() {
           {/* Lista textual de resultados do JSON do projeto */}
           {p.results?.length > 0 && (
             <ul className="mx-auto mt-12 grid max-w-3xl gap-2 text-center text-sm opacity-90">
-              {p.results.map((r) => (
+              {p.results.map((r: string) => (
                 <li key={r} className="inline-flex items-center justify-center gap-2">
                   <StarSpark className="h-3 w-3" style={{ color: t.accent }} /> {r}
                 </li>
