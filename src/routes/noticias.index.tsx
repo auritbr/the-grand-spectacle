@@ -1,11 +1,23 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
+import { z } from "zod";
 import { PageHero } from "@/components/layout/PageHero";
 import { NewsCard } from "@/components/cards/NewsCard";
+import { Pagination } from "@/components/Pagination";
+import { BuntingRow } from "@/components/decor/CircusMotifs";
 import { NEWS, NEWS_TAG_LIST } from "@/lib/site-data";
 
+const PER_PAGE = 9;
+
+const searchSchema = z.object({
+  page: z.number().int().min(1).optional().catch(1),
+  q: z.string().optional().catch(undefined),
+  tag: z.string().optional().catch(undefined),
+});
+
 export const Route = createFileRoute("/noticias/")({
+  validateSearch: (search) => searchSchema.parse(search),
   head: () => ({
     meta: [
       { title: "Notícias — Arco & Palco" },
@@ -20,67 +32,132 @@ export const Route = createFileRoute("/noticias/")({
 });
 
 function Noticias() {
-  const [q, setQ] = useState("");
-  const [tag, setTag] = useState<string>("Todos");
-  const list = useMemo(() => {
-    const query = q.trim().toLowerCase();
-    return NEWS.filter(
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: Route.fullPath });
+  const activeTag = search.tag ?? "Todos";
+  const page = search.page ?? 1;
+  const [qLocal, setQLocal] = useState(search.q ?? "");
+
+  const filtered = useMemo(() => {
+    const query = (search.q ?? "").trim().toLowerCase();
+    const sorted = [...NEWS].sort((a, b) => (a.date < b.date ? 1 : -1));
+    return sorted.filter(
       (n) =>
-        (tag === "Todos" || n.tag === tag) &&
+        (activeTag === "Todos" || n.tag === activeTag) &&
         (!query || n.title.toLowerCase().includes(query) || n.excerpt.toLowerCase().includes(query)),
     );
-  }, [q, tag]);
-  const featured = list[0];
-  const rest = list.slice(1);
+  }, [search.q, activeTag]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+  const safePage = Math.min(page, totalPages);
+  const slice = filtered.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE);
+
+  const updateSearch = (patch: Record<string, unknown>) =>
+    navigate({
+      search: (prev: Record<string, unknown>) => {
+        const next: Record<string, unknown> = { ...prev, ...patch };
+        // limpa valores default para manter URLs curtas
+        if (!next.q) delete next.q;
+        if (!next.tag || next.tag === "Todos") delete next.tag;
+        if (!next.page || next.page === 1) delete next.page;
+        return next as never;
+      },
+    });
+
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateSearch({ q: qLocal.trim(), page: 1 });
+  };
+
+  const clearFilters = () => {
+    setQLocal("");
+    updateSearch({ q: undefined, tag: undefined, page: undefined });
+  };
+
+  const hasFilters = !!search.q || (search.tag && search.tag !== "Todos");
 
   return (
     <>
       <PageHero
         crumbs={[{ label: "Início", to: "/" }, { label: "Notícias" }]}
         eyebrow="Comunicação"
-        title="Notícias"
-        intro="Novidades, coberturas e registros das ações do Ponto de Cultura."
+        title="Notícias e coberturas"
+        intro="Registros das oficinas, apresentações, encontros comunitários e conquistas do Ponto de Cultura."
       />
-      <section className="container-page py-16 space-y-8">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="relative w-full md:max-w-sm">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[color:var(--muted-foreground)]" />
-            <input
-              type="search"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Buscar notícias..."
-              className="h-11 w-full rounded-full border border-[color:var(--border)] bg-[color:var(--card)] pl-10 pr-4 text-sm"
-              aria-label="Buscar notícias"
-            />
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {["Todos", ...NEWS_TAG_LIST].map((t) => (
+
+      <section className="container-page py-16">
+        {/* Barra de busca + filtros de tags */}
+        <div className="rounded-3xl border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-sm">
+          <form onSubmit={submitSearch} className="flex flex-col gap-4 md:flex-row md:items-center">
+            <div className="relative flex-1">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[color:var(--muted-foreground)]" />
+              <input
+                type="search"
+                value={qLocal}
+                onChange={(e) => setQLocal(e.target.value)}
+                placeholder="Buscar por título ou palavra-chave..."
+                className="h-12 w-full rounded-full border border-[color:var(--border)] bg-[color:var(--background)] pl-11 pr-4 text-sm outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--wine)]"
+                aria-label="Buscar notícias"
+              />
+            </div>
+            <button
+              type="submit"
+              className="h-12 rounded-full bg-[color:var(--wine)] px-6 text-sm font-semibold text-[color:var(--cream)] transition-colors hover:bg-[color:var(--wine-deep)]"
+            >
+              Buscar
+            </button>
+            {hasFilters && (
               <button
-                key={t}
-                onClick={() => setTag(t)}
-                className={`rounded-full border px-3 py-1 text-xs ${
-                  tag === t
-                    ? "border-[color:var(--wine)] bg-[color:var(--wine)] text-[color:var(--cream)]"
-                    : "border-[color:var(--border)] hover:bg-[color:var(--beige)]"
-                }`}
+                type="button"
+                onClick={clearFilters}
+                className="inline-flex h-12 items-center gap-1 rounded-full border border-[color:var(--border)] px-4 text-sm text-[color:var(--muted-foreground)] hover:bg-[color:var(--beige)]"
               >
-                {t}
+                <X className="h-4 w-4" /> Limpar
               </button>
+            )}
+          </form>
+
+          <div className="mt-6">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[color:var(--gold)]">
+              Filtrar por editoria
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {["Todos", ...NEWS_TAG_LIST].map((t) => (
+                <button
+                  key={t}
+                  onClick={() => updateSearch({ tag: t, page: 1 })}
+                  className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
+                    activeTag === t
+                      ? "border-[color:var(--wine)] bg-[color:var(--wine)] text-[color:var(--cream)]"
+                      : "border-[color:var(--border)] hover:bg-[color:var(--beige)]"
+                  }`}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 flex items-center justify-between gap-4">
+          <p className="text-sm text-[color:var(--muted-foreground)]">
+            {filtered.length} {filtered.length === 1 ? "notícia" : "notícias"}
+            {hasFilters ? " para os filtros aplicados" : " no total"}
+          </p>
+          <BuntingRow className="h-5 w-40 text-[color:var(--gold)] opacity-70 sm:w-56" />
+        </div>
+
+        {slice.length === 0 ? (
+          <p className="mt-16 text-center text-[color:var(--muted-foreground)]">Nenhuma notícia encontrada com os filtros atuais.</p>
+        ) : (
+          <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {slice.map((n) => (
+              <NewsCard key={n.slug} n={n} />
             ))}
           </div>
-        </div>
-
-        {featured && <NewsCard n={featured} featured />}
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {rest.map((n) => (
-            <NewsCard key={n.slug} n={n} />
-          ))}
-        </div>
-        {list.length === 0 && (
-          <p className="py-12 text-center text-[color:var(--muted-foreground)]">Nenhuma notícia encontrada.</p>
         )}
+
+        <Pagination page={safePage} totalPages={totalPages} onChange={(p) => updateSearch({ page: p })} />
       </section>
     </>
   );
