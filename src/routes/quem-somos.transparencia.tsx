@@ -1,17 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ChevronDown, FileText, Search, ShieldCheck, FolderOpen } from "lucide-react";
-import { PageHero } from "@/components/layout/PageHero";
-import { DocumentCard } from "@/components/cards/DocumentCard";
-import { CornerOrnament, StarSpark } from "@/components/decor/CircusMotifs";
+import { ChevronDown, FileText, Archive, Download, Eye } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { DOCS, type Doc } from "@/lib/site-data";
 
 export const Route = createFileRoute("/quem-somos/transparencia")({
   head: () => ({
     meta: [
-      { title: "Transparência — Arco & Palco" },
+      { title: "Acervo institucional — Arco & Palco" },
       { name: "description", content: "Documentos institucionais, prestações de contas e certificados públicos." },
-      { property: "og:title", content: "Transparência — Arco & Palco" },
+      { property: "og:title", content: "Acervo institucional — Arco & Palco" },
       { property: "og:description", content: "Acesso à informação do Ponto de Cultura Arco & Palco." },
       { property: "og:url", content: "/quem-somos/transparencia" },
     ],
@@ -20,38 +18,52 @@ export const Route = createFileRoute("/quem-somos/transparencia")({
   component: Transparencia,
 });
 
-// Ordem intencional dos grupos — do mais institucional ao mais operacional.
-const GROUP_ORDER: Doc["category"][] = [
+// Agrupamento em cinco categorias amplas para a interface pública.
+type GroupKey =
+  | "Documentos oficiais e institucionais"
+  | "Portfólios e prestação de contas"
+  | "Relatórios de atividades"
+  | "Certificados e reconhecimentos"
+  | "Editais, parcerias e convênios";
+
+const GROUP_ORDER: GroupKey[] = [
   "Documentos oficiais e institucionais",
-  "Atas e registros administrativos",
+  "Portfólios e prestação de contas",
   "Relatórios de atividades",
-  "Relatórios financeiros",
-  "Prestação de contas",
-  "Editais e parcerias",
   "Certificados e reconhecimentos",
-  "Políticas internas",
-  "Portfólios e registros",
-  "Outros documentos",
+  "Editais, parcerias e convênios",
 ];
 
+function groupOf(cat: Doc["category"]): GroupKey {
+  switch (cat) {
+    case "Documentos oficiais e institucionais":
+    case "Atas e registros administrativos":
+    case "Políticas internas":
+      return "Documentos oficiais e institucionais";
+    case "Portfólios e registros":
+    case "Prestação de contas":
+      return "Portfólios e prestação de contas";
+    case "Relatórios de atividades":
+    case "Relatórios financeiros":
+      return "Relatórios de atividades";
+    case "Certificados e reconhecimentos":
+      return "Certificados e reconhecimentos";
+    case "Editais e parcerias":
+    case "Outros documentos":
+    default:
+      return "Editais, parcerias e convênios";
+  }
+}
+
 function Transparencia() {
-  const [q, setQ] = useState("");
-  const [year, setYear] = useState<string>("Todos");
-  const [openGroups, setOpenGroups] = useState<Set<string>>(new Set([GROUP_ORDER[0]]));
+  const [openGroups, setOpenGroups] = useState<Set<string>>(new Set());
 
-  const years = useMemo(
-    () => ["Todos", ...Array.from(new Set(DOCS.map((d) => String(d.year)))).sort((a, b) => Number(b) - Number(a))],
-    [],
-  );
-
-  const filtered = useMemo(() => {
-    const query = q.trim().toLowerCase();
-    return DOCS.filter(
-      (d) =>
-        (year === "Todos" || String(d.year) === year) &&
-        (!query || d.title.toLowerCase().includes(query) || d.category.toLowerCase().includes(query)),
-    );
-  }, [q, year]);
+  const grouped = useMemo(() => {
+    const map = new Map<GroupKey, Doc[]>();
+    for (const g of GROUP_ORDER) map.set(g, []);
+    for (const d of DOCS) map.get(groupOf(d.category))!.push(d);
+    return map;
+  }, []);
 
   const toggleGroup = (g: string) =>
     setOpenGroups((prev) => {
@@ -61,156 +73,123 @@ function Transparencia() {
       return next;
     });
 
-  const expandAll = () => setOpenGroups(new Set(GROUP_ORDER));
-  const collapseAll = () => setOpenGroups(new Set());
-
   return (
-    <>
-      <PageHero
-        crumbs={[{ label: "Início", to: "/" }, { label: "Quem Somos", to: "/quem-somos" }, { label: "Transparência" }]}
-        eyebrow="Acesso à informação"
-        title="Transparência e prestação de contas"
-        intro="Acervo público de documentos institucionais, financeiros e administrativos do Ponto de Cultura."
-      />
+    <main className="min-h-screen bg-[#F6F8FB]">
+      {/* Trilha discreta */}
+      <div className="container-page pt-10">
+        <nav aria-label="Trilha" className="text-xs text-[color:var(--muted-foreground)]">
+          <Link to="/" className="hover:underline">Início</Link>
+          <span aria-hidden> / </span>
+          <Link to="/quem-somos" className="hover:underline">Quem Somos</Link>
+          <span aria-hidden> / </span>
+          <span className="text-[color:var(--foreground)]/70">Acervo institucional</span>
+        </nav>
+      </div>
 
-      {/* Compromisso institucional */}
-      <section className="container-page pt-16">
-        <div className="relative overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[color:var(--card)] p-8 shadow-sm md:p-12">
-          <CornerOrnament className="absolute -right-2 -top-2 h-24 w-24 text-[color:var(--gold)]/60" />
-          <div className="grid items-center gap-8 md:grid-cols-[auto_1fr]">
-            <div className="grid h-16 w-16 place-items-center rounded-2xl bg-[color:var(--wine)] text-[color:var(--cream)]">
-              <ShieldCheck className="h-7 w-7" aria-hidden />
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[color:var(--gold)]">
-                Nosso compromisso
-              </p>
-              <h2 className="mt-2 font-display text-2xl font-bold md:text-3xl">
-                Documentos abertos, contas claras
-              </h2>
-              <p className="mt-3 max-w-3xl text-[color:var(--muted-foreground)]">
-                Publicamos regularmente os documentos que registram a vida institucional, a aplicação de recursos e as
-                parcerias do Ponto de Cultura. Este acervo é atualizado a cada ciclo e permanece disponível para consulta
-                pública, imprensa, apoiadores e comunidade.
-              </p>
-            </div>
-          </div>
+      {/* Cabeçalho central */}
+      <header className="container-page relative pb-10 pt-14 text-center md:pt-20">
+        <span aria-hidden className="pointer-events-none absolute inset-x-0 -top-4 mx-auto h-40 max-w-3xl opacity-40">
+          <svg viewBox="0 0 800 160" preserveAspectRatio="none" className="h-full w-full">
+            <path d="M0 130 Q 400 -20 800 130" stroke="#94a3b8" strokeWidth="1" fill="none" />
+          </svg>
+        </span>
+        <div className="relative inline-flex items-center gap-2 text-[color:var(--navy)]">
+          <Archive className="h-4 w-4" aria-hidden />
+          <span className="text-[13px] font-semibold uppercase tracking-[0.28em]">Acervo</span>
         </div>
-      </section>
+        <h1 className="relative mt-5 font-display text-4xl font-bold text-[color:var(--navy)] md:text-5xl lg:text-[54px] lg:leading-[1.05]">
+          Acervo institucional
+        </h1>
+        <p className="relative mx-auto mt-5 max-w-[850px] text-[color:var(--muted-foreground)] md:text-lg">
+          Acesse documentos, certificados, reconhecimentos, portfólios e registros institucionais, organizados por
+          categoria para facilitar a consulta pública.
+        </p>
+      </header>
 
-      {/* Filtros */}
-      <section className="container-page pt-10">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="w-full md:max-w-md">
-            <label htmlFor="doc-search" className="text-xs font-semibold uppercase tracking-widest text-[color:var(--wine)]">
-              Buscar documento
-            </label>
-            <div className="relative mt-2">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[color:var(--muted-foreground)]" />
-              <input
-                id="doc-search"
-                type="search"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Ex.: estatuto, relatório 2025..."
-                className="h-11 w-full rounded-full border border-[color:var(--border)] bg-[color:var(--card)] pl-10 pr-4 text-sm"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-end gap-4">
-            <label className="flex flex-col text-xs">
-              <span className="font-semibold uppercase tracking-widest text-[color:var(--wine)]">Ano</span>
-              <select
-                value={year}
-                onChange={(e) => setYear(e.target.value)}
-                className="mt-2 h-11 rounded-full border border-[color:var(--border)] bg-[color:var(--card)] px-4 text-sm"
+      {/* Acordeões */}
+      <section className="container-page pb-24">
+        <div className="mx-auto w-full max-w-5xl space-y-5">
+          {GROUP_ORDER.map((g) => {
+            const docs = grouped.get(g) ?? [];
+            const open = openGroups.has(g);
+            return (
+              <div
+                key={g}
+                className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
               >
-                {years.map((y) => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
-            </label>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={expandAll}
-                className="rounded-full border border-[color:var(--border)] px-4 py-2 text-xs font-medium hover:bg-[color:var(--beige)]"
-              >
-                Expandir tudo
-              </button>
-              <button
-                type="button"
-                onClick={collapseAll}
-                className="rounded-full border border-[color:var(--border)] px-4 py-2 text-xs font-medium hover:bg-[color:var(--beige)]"
-              >
-                Recolher
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Acervo em accordions */}
-      <section className="container-page py-14 space-y-4">
-        {GROUP_ORDER.map((g) => {
-          const docs = filtered.filter((d) => d.category === g);
-          if (docs.length === 0) return null;
-          const open = openGroups.has(g);
-          return (
-            <div
-              key={g}
-              className="overflow-hidden rounded-2xl border border-[color:var(--border)] bg-[color:var(--card)] shadow-sm"
-            >
-              <button
-                type="button"
-                onClick={() => toggleGroup(g)}
-                aria-expanded={open}
-                className="flex w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-[color:var(--beige)]/50"
-              >
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--beige)] text-[color:var(--wine)]">
-                  <FolderOpen className="h-5 w-5" aria-hidden />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="flex items-center gap-2">
-                    <StarSpark className="h-3 w-3 text-[color:var(--gold)]" />
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[color:var(--gold)]">
-                      Categoria
+                <button
+                  type="button"
+                  onClick={() => toggleGroup(g)}
+                  aria-expanded={open}
+                  className="flex w-full items-center gap-5 px-6 py-6 text-left md:px-8 md:py-8"
+                >
+                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-slate-100 text-[color:var(--navy)]">
+                    <Archive className="h-5 w-5" aria-hidden />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-display text-lg font-bold text-[color:var(--navy)] md:text-xl">
+                      {g}
+                    </span>
+                    <span className="mt-1 block text-sm text-slate-500">
+                      ({docs.length} {docs.length === 1 ? "documento" : "documentos"})
                     </span>
                   </span>
-                  <span className="mt-1 block font-display text-lg font-bold text-[color:var(--wine)]">{g}</span>
-                </span>
-                <span className="hidden shrink-0 rounded-full bg-[color:var(--beige)] px-3 py-1 text-xs font-semibold text-[color:var(--wine)] sm:inline">
-                  {docs.length} {docs.length === 1 ? "arquivo" : "arquivos"}
-                </span>
-                <ChevronDown
-                  className={`h-5 w-5 shrink-0 text-[color:var(--wine)] transition-transform ${open ? "rotate-180" : ""}`}
-                  aria-hidden
-                />
-              </button>
-              {open && (
-                <div className="border-t border-[color:var(--border)] bg-[color:var(--background)] p-5">
-                  <div className="grid gap-3 md:grid-cols-2">
-                    {docs.map((d) => (
-                      <DocumentCard key={d.id} d={d} />
-                    ))}
+                  <ChevronDown
+                    className={`h-6 w-6 shrink-0 text-slate-500 transition-transform ${open ? "rotate-180" : ""}`}
+                    aria-hidden
+                  />
+                </button>
+                {open && (
+                  <div className="border-t border-slate-100">
+                    {docs.length === 0 ? (
+                      <p className="px-6 py-6 text-sm text-slate-500 md:px-8">
+                        Nenhum documento publicado nesta categoria no momento.
+                      </p>
+                    ) : (
+                      <ul className="divide-y divide-slate-100">
+                        {docs.map((d) => (
+                          <li
+                            key={d.id}
+                            className="flex flex-col gap-4 px-6 py-5 md:flex-row md:items-center md:justify-between md:px-8"
+                          >
+                            <div className="flex min-w-0 items-start gap-4">
+                              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-slate-50 text-[color:var(--navy)]">
+                                <FileText className="h-4.5 w-4.5" aria-hidden />
+                              </span>
+                              <div className="min-w-0">
+                                <p className="truncate font-semibold text-[color:var(--navy)]">{d.title}</p>
+                                <p className="mt-0.5 text-xs text-slate-500">
+                                  Arquivo {d.type} · {d.size} · {d.year}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex shrink-0 gap-2 md:justify-end">
+                              <a
+                                href="#"
+                                onClick={(e) => e.preventDefault()}
+                                className="inline-flex h-10 items-center gap-1.5 rounded-full border border-slate-200 px-4 text-xs font-semibold text-[color:var(--navy)] hover:bg-slate-50"
+                              >
+                                <Eye className="h-3.5 w-3.5" aria-hidden /> Visualizar
+                              </a>
+                              <a
+                                href="#"
+                                onClick={(e) => e.preventDefault()}
+                                className="inline-flex h-10 items-center gap-1.5 rounded-full bg-[color:var(--navy)] px-4 text-xs font-semibold text-white hover:brightness-110"
+                              >
+                                <Download className="h-3.5 w-3.5" aria-hidden /> Baixar documento
+                              </a>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-
-        {filtered.length === 0 && (
-          <div className="rounded-2xl border border-dashed border-[color:var(--border)] bg-[color:var(--card)] p-12 text-center">
-            <FileText className="mx-auto h-8 w-8 text-[color:var(--muted-foreground)]" aria-hidden />
-            <p className="mt-3 font-display text-lg font-semibold">Nenhum documento encontrado</p>
-            <p className="mt-1 text-sm text-[color:var(--muted-foreground)]">
-              Tente ajustar a busca ou selecionar outro ano.
-            </p>
-          </div>
-        )}
+                )}
+              </div>
+            );
+          })}
+        </div>
       </section>
-    </>
+    </main>
   );
 }

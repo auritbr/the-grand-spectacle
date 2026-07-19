@@ -32,7 +32,7 @@ function Galeria() {
       <PageHero
         crumbs={[{ label: "Início", to: "/" }, { label: "Galeria" }]}
         eyebrow="Registros"
-        title="Galeria de imagens"
+        title="Galeria de Fotos"
         intro="Oficinas, apresentações e encontros comunitários organizados por ano e conjunto fotográfico."
       />
 
@@ -83,10 +83,7 @@ function Galeria() {
                   {post.title}
                 </h2>
                 <RopeCurve className="mt-3 h-3 w-40 text-[color:var(--gold)]" />
-                {post.description && (
-                  <p className="mt-4 text-[color:var(--muted-foreground)]">{post.description}</p>
-                )}
-                <p className="mt-2 text-xs font-medium text-[color:var(--wine)]">
+                <p className="mt-3 text-xs font-medium text-[color:var(--wine)]">
                   {post.photos.length} fotografia{post.photos.length > 1 ? "s" : ""}
                 </p>
               </header>
