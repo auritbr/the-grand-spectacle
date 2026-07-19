@@ -21,12 +21,9 @@ export const Route = createFileRoute("/quem-somos/equipe")({
   component: Equipe,
 });
 
-const CATEGORIES = ["Todos", "Coordenação", "Direção", "Produção", "Educadores", "Artistas", "Equipe técnica", "Colaboradores"] as const;
-
 function Equipe() {
-  const [cat, setCat] = useState<(typeof CATEGORIES)[number]>("Todos");
   const [open, setOpen] = useState<TeamMember | null>(null);
-  const list = cat === "Todos" ? TEAM : TEAM.filter((m) => m.category === cat);
+  const list = TEAM;
 
   // Fechar modal com Escape.
   useEffect(() => {
@@ -43,33 +40,11 @@ function Equipe() {
       <PageHero
         crumbs={[{ label: "Início", to: "/" }, { label: "Quem Somos", to: "/quem-somos" }, { label: "Equipe" }]}
         eyebrow="Nossa equipe"
-        title="Quem sustenta o picadeiro no dia a dia"
+        title="Equipe"
         intro="Um grupo diverso de artistas, educadores, produtores e profissionais técnicos que constrói o Ponto de Cultura em cada temporada."
       />
       <section className="container-page py-16">
-        <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-2 sm:mx-0 sm:flex-wrap sm:px-0" role="tablist" aria-label="Filtro por categoria">
-          {CATEGORIES.map((c) => (
-            <button
-              key={c}
-              role="tab"
-              aria-selected={cat === c}
-              onClick={() => setCat(c)}
-              className={`shrink-0 rounded-full border px-5 py-2 text-sm font-medium transition-colors ${
-                cat === c
-                  ? "border-[color:var(--wine)] bg-[color:var(--wine)] text-[color:var(--cream)]"
-                  : "border-[color:var(--border)] hover:bg-[color:var(--beige)]"
-              }`}
-            >
-              {c}
-            </button>
-          ))}
-        </div>
-
-        <p className="mt-6 text-sm text-[color:var(--muted-foreground)]">
-          {list.length} {list.length === 1 ? "integrante" : "integrantes"} nesta categoria.
-        </p>
-
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {list.map((m) => (
             <MemberCard key={m.name} m={m} onOpen={() => setOpen(m)} />
           ))}
