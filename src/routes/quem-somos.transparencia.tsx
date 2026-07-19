@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ChevronDown, FileText, Archive, Download, Eye } from "lucide-react";
+import { ChevronDown, FileText, Archive, Download, Eye, ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { StagePlaceholder } from "@/components/decor/CurtainBackdrop";
+import { CornerOrnament, RopeCurve, StarSpark, PicadeiroArc } from "@/components/decor/CircusMotifs";
+import { Button } from "@/components/ui/button";
 import { DOCS, type Doc } from "@/lib/site-data";
 
 export const Route = createFileRoute("/quem-somos/transparencia")({
@@ -75,32 +78,52 @@ function Transparencia() {
 
   return (
     <main className="min-h-screen bg-[#F6F8FB]">
-      {/* Trilha discreta */}
-      <div className="container-page pt-10">
-        <nav aria-label="Trilha" className="text-xs text-[color:var(--muted-foreground)]">
-          <Link to="/" className="hover:underline">Início</Link>
-          <span aria-hidden> / </span>
-          <Link to="/quem-somos" className="hover:underline">Quem Somos</Link>
-          <span aria-hidden> / </span>
-          <span className="text-[color:var(--foreground)]/70">Acervo institucional</span>
-        </nav>
-      </div>
+      {/* HERO institucional */}
+      <header className="relative min-h-[300px] md:min-h-[380px] lg:min-h-[440px]">
+        <div className="absolute inset-0">
+          <StagePlaceholder
+            label="Documentos e gestão institucional"
+            ratio="aspect-auto h-full w-full"
+            className="!aspect-auto h-full w-full rounded-none"
+            variant="arc"
+          />
+        </div>
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-[color:var(--navy)]/90 via-[color:var(--navy)]/70 to-[color:var(--navy)]/40" />
+        <PicadeiroArc aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-16 w-full text-[color:var(--gold)]/60" />
+        <StarSpark aria-hidden className="pointer-events-none absolute right-10 top-24 h-4 w-4 text-[color:var(--gold)]" />
+        <CornerOrnament aria-hidden className="pointer-events-none absolute right-6 top-6 h-16 w-16 text-[color:var(--gold)]/60" />
+        <div className="container-page relative flex min-h-[300px] flex-col justify-end pb-10 pt-28 md:min-h-[380px] md:pb-14 md:pt-32 lg:min-h-[440px]">
+          <nav aria-label="Trilha" className="text-xs text-[color:var(--cream)]/75">
+            <Link to="/" className="hover:underline">Início</Link>
+            <span aria-hidden> / </span>
+            <Link to="/quem-somos" className="hover:underline">Quem Somos</Link>
+            <span aria-hidden> / </span>
+            <span className="text-[color:var(--gold)]">Transparência</span>
+          </nav>
+          <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold)]">
+            Acesso à informação
+          </p>
+          <h1 className="mt-2 font-display text-4xl font-bold text-[color:var(--cream)] md:text-5xl">
+            Transparência
+          </h1>
+          <p className="mt-3 max-w-2xl text-[color:var(--cream)]/85 md:text-lg">
+            Informações, documentos e registros que fortalecem o compromisso do Ponto de Cultura com a gestão responsável
+            e o acesso público.
+          </p>
+        </div>
+      </header>
 
-      {/* Cabeçalho central */}
-      <header className="container-page relative pb-10 pt-14 text-center md:pt-20">
-        <span aria-hidden className="pointer-events-none absolute inset-x-0 -top-4 mx-auto h-40 max-w-3xl opacity-40">
-          <svg viewBox="0 0 800 160" preserveAspectRatio="none" className="h-full w-full">
-            <path d="M0 130 Q 400 -20 800 130" stroke="#94a3b8" strokeWidth="1" fill="none" />
-          </svg>
-        </span>
-        <div className="relative inline-flex items-center gap-2 text-[color:var(--navy)]">
+      {/* Cabeçalho da seção Acervo — proporções compactas */}
+      <header className="container-page pb-8 pt-20 text-center md:pt-24">
+        <div className="inline-flex items-center gap-2 text-[color:var(--navy)]">
           <Archive className="h-4 w-4" aria-hidden />
           <span className="text-[13px] font-semibold uppercase tracking-[0.28em]">Acervo</span>
         </div>
-        <h1 className="relative mt-5 font-display text-4xl font-bold text-[color:var(--navy)] md:text-5xl lg:text-[54px] lg:leading-[1.05]">
+        <h2 className="mt-4 font-display text-[38px] font-bold leading-tight text-[color:var(--navy)] md:text-[44px]">
           Acervo institucional
-        </h1>
-        <p className="relative mx-auto mt-5 max-w-[850px] text-[color:var(--muted-foreground)] md:text-lg">
+        </h2>
+        <RopeCurve aria-hidden className="mx-auto mt-4 h-4 w-32 text-[color:var(--gold)]" />
+        <p className="mx-auto mt-4 max-w-[820px] text-[17px] text-[color:var(--muted-foreground)] md:text-[18px]">
           Acesse documentos, certificados, reconhecimentos, portfólios e registros institucionais, organizados por
           categoria para facilitar a consulta pública.
         </p>
@@ -121,21 +144,21 @@ function Transparencia() {
                   type="button"
                   onClick={() => toggleGroup(g)}
                   aria-expanded={open}
-                  className="flex w-full items-center gap-5 px-6 py-6 text-left md:px-8 md:py-8"
+                  className="flex w-full items-center gap-5 px-6 py-5 text-left md:px-8 md:py-6"
                 >
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-slate-100 text-[color:var(--navy)]">
                     <Archive className="h-5 w-5" aria-hidden />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block font-display text-lg font-bold text-[color:var(--navy)] md:text-xl">
+                    <span className="block font-display text-[19px] font-bold text-[color:var(--navy)] md:text-[20px]">
                       {g}
                     </span>
-                    <span className="mt-1 block text-sm text-slate-500">
+                    <span className="mt-0.5 block text-[14px] text-slate-500">
                       ({docs.length} {docs.length === 1 ? "documento" : "documentos"})
                     </span>
                   </span>
                   <ChevronDown
-                    className={`h-6 w-6 shrink-0 text-slate-500 transition-transform ${open ? "rotate-180" : ""}`}
+                    className={`h-5 w-5 shrink-0 text-slate-500 transition-transform ${open ? "rotate-180" : ""}`}
                     aria-hidden
                   />
                 </button>
@@ -188,6 +211,42 @@ function Transparencia() {
               </div>
             );
           })}
+        </div>
+
+        {/* CTA FINAL */}
+        <div className="mx-auto mt-16 w-full max-w-5xl">
+          <div className="relative overflow-hidden rounded-3xl bg-[color:var(--navy)] p-8 text-[color:var(--cream)] shadow-lg md:p-12">
+            <svg aria-hidden viewBox="0 0 800 300" preserveAspectRatio="xMidYMid slice" className="pointer-events-none absolute inset-0 h-full w-full opacity-30">
+              <path d="M-40 260 Q 400 -60 840 260" stroke="#E8B84A" strokeWidth="1.2" fill="none" />
+              <circle cx="400" cy="220" r="180" fill="none" stroke="#E8B84A" strokeWidth="1" opacity="0.5" />
+              <circle cx="400" cy="220" r="120" fill="none" stroke="#E8B84A" strokeWidth="0.7" opacity="0.35" />
+            </svg>
+            <StarSpark aria-hidden className="pointer-events-none absolute right-8 top-6 h-5 w-5 text-[color:var(--gold)]" />
+            <StarSpark aria-hidden className="pointer-events-none absolute left-10 bottom-8 h-3 w-3 text-[color:var(--gold)]/80" />
+            <FileText aria-hidden className="pointer-events-none absolute right-14 bottom-10 h-8 w-8 text-[color:var(--gold)]/40" />
+            <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="max-w-2xl">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[color:var(--gold)]">
+                  Ainda com dúvidas?
+                </p>
+                <h3 className="mt-2 font-display text-2xl font-bold md:text-3xl">
+                  Não encontrou a informação que procurava?
+                </h3>
+                <p className="mt-3 text-[color:var(--cream)]/85">
+                  Entre em contato com nossa equipe para solicitar orientações ou informações complementares sobre os
+                  documentos institucionais.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild className="bg-[color:var(--gold)] text-[color:var(--navy)] hover:brightness-110">
+                  <Link to="/contato">Fale conosco <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                </Button>
+                <Button asChild variant="outline" className="border-[color:var(--cream)]/40 bg-transparent text-[color:var(--cream)] hover:bg-[color:var(--cream)]/10 hover:text-[color:var(--cream)]">
+                  <Link to="/quem-somos">Conheça o Ponto de Cultura</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
