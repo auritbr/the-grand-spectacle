@@ -148,25 +148,25 @@ export function SectionArc({ className = "" }: { className?: string }) {
 }
 
 /** Escolhe motivo por chave. Retorna um componente <svg/>. */
-export function Motif({ kind, className }: { kind: string; className?: string }) {
+export function Motif({ kind, className, style }: { kind: string; className?: string; style?: React.CSSProperties }) {
   switch (kind) {
     case "juggle":
-      return <JugglingArc className={className} />;
+      return <JugglingArc className={className} style={style} />;
     case "silk":
-      return <SilkRibbon className={className} />;
+      return <SilkRibbon className={className} style={style} />;
     case "ring":
-      return <RingHoop className={className} />;
+      return <RingHoop className={className} style={style} />;
     case "star":
-      return <StarSpark className={className} />;
+      return <StarSpark className={className} style={style} />;
     case "rope":
-      return <RopeCurve className={className} />;
+      return <RopeCurve className={className} style={style} />;
     case "arc":
-      return <PicadeiroArc className={className} />;
+      return <PicadeiroArc className={className} style={style} />;
     case "spotlight":
-      return <SpotlightBeam className={className} />;
+      return <SpotlightBeam className={className} style={style} />;
     case "bunting":
-      return <BuntingRow className={className} />;
+      return <BuntingRow className={className} style={style} />;
     default:
-      return <StarSpark className={className} />;
+      return <StarSpark className={className} style={style} />;
   }
 }
