@@ -2,7 +2,7 @@
 // Todos são decorativos, ficam com aria-hidden e herdam cor via currentColor
 // quando aplicável.
 
-type Props = { className?: string };
+type Props = { className?: string; style?: React.CSSProperties; "aria-hidden"?: boolean | "true" | "false" };
 
 /** Trajetória de 3 bolas de malabarismo em arco. */
 export function JugglingArc({ className = "" }: Props) {
